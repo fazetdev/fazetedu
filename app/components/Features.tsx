@@ -1,7 +1,7 @@
 export default function Features() {
     const features = [
       {
-        title: "School Management System",
+        title: "Smart School System (Core Product)",
         description: "Complete administrative control for Nigerian schools",
         icon: "🏫",
         color: "bg-blue-100"
