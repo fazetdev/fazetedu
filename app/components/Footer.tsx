@@ -19,9 +19,9 @@ export default function Footer() {
             <div>
               <h3 className="font-bold text-lg mb-4">Products</h3>
               <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white">Smart School</a></li>
                 <li><a href="#" className="hover:text-white">EduMarket</a></li>
                 <li><a href="#" className="hover:text-white">TeacherEarn</a></li>
-                <li><a href="#" className="hover:text-white">Pricing</a></li>
               </ul>
             </div>
             
@@ -32,6 +32,7 @@ export default function Footer() {
                 <li><a href="#" className="hover:text-white">About</a></li>
                 <li><a href="#" className="hover:text-white">Contact</a></li>
                 <li><a href="#" className="hover:text-white">Testimonials</a></li>
+                <li><a href="#" className="hover:text-white">Pricing</a></li>
               </ul>
             </div>
             
