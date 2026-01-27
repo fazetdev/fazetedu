@@ -14,7 +14,7 @@ export default function TeacherEarnPage() {
     { id: 'webinar', name: 'Webinars', icon: '📹' }
   ];
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     

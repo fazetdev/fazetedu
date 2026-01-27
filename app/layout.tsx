@@ -1,13 +1,7 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap'
-});
 
 export const metadata: Metadata = {
   title: 'Fazet Edutech - Smart Solutions for Nigerian Schools',
@@ -21,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans antialiased bg-white">
         <Navbar />
         {children}
         <Footer />

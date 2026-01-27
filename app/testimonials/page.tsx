@@ -33,7 +33,7 @@ export default function TestimonialsPage() {
     rating: 5
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Add new testimonial to the list

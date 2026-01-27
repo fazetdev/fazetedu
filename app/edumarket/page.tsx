@@ -17,7 +17,7 @@ export default function EduMarketPage() {
     { id: 'other', name: 'Other', icon: '💡' }
   ];
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
