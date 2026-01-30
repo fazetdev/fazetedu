@@ -68,7 +68,7 @@ export default function EduMarketPage() {
                 type="text"
                 placeholder="Search for lesson plans, worksheets, exam questions..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                 className="w-full border border-gray-300 rounded-2xl p-4 pl-12 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none shadow-sm"
               />
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2">

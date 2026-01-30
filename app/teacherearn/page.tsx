@@ -89,7 +89,8 @@ export default function TeacherEarnPage() {
             </div>
 
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className="mb-8">
+            <form onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+            className="mb-8">
               <div className="relative">
                 <input
                   type="text"
