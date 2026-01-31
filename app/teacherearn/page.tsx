@@ -88,15 +88,14 @@ export default function TeacherEarnPage() {
               </button>
             </div>
 
-            {/* Search Bar */}
-            <form onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-            className="mb-8">
+            {/* Search Bar - FIXED: Removed the onChange from form and kept it on input */}
+            <form onSubmit={handleSearch} className="mb-8">
               <div className="relative">
                 <input
                   type="text"
                   placeholder={`Search ${tabs.find(t => t.id === activeTab)?.name.toLowerCase()}...`}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                   className="w-full border border-gray-300 rounded-xl p-4 pl-12 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                 />
                 <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
