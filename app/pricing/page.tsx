@@ -18,7 +18,7 @@ export default function PricingPage() {
         'Class-level insights',
         'Export to Excel'
       ],
-      color: 'from-blue-500 to-cyan-500'
+      // REMOVED: color: 'from-blue-500 to-cyan-500'
     },
     {
       name: 'Report Generator',
@@ -32,7 +32,7 @@ export default function PricingPage() {
         'Bulk generation',
         'Teacher comments'
       ],
-      color: 'from-purple-500 to-pink-500'
+      // REMOVED: color: 'from-purple-500 to-pink-500'
     },
     {
       name: 'Fee Manager',
@@ -46,7 +46,7 @@ export default function PricingPage() {
         'Receipt generation',
         'Financial reports'
       ],
-      color: 'from-green-500 to-emerald-500',
+      // REMOVED: color: 'from-green-500 to-emerald-500'
       popular: true
     },
     {
@@ -61,7 +61,7 @@ export default function PricingPage() {
         'Teacher collaboration',
         'Progress tracking'
       ],
-      color: 'from-orange-500 to-yellow-500'
+      // REMOVED: color: 'from-orange-500 to-yellow-500'
     },
     {
       name: 'Parent Hub',
@@ -75,7 +75,7 @@ export default function PricingPage() {
         'Attendance alerts',
         'Bulk messaging'
       ],
-      color: 'from-red-500 to-rose-500'
+      // REMOVED: color: 'from-red-500 to-rose-500'
     }
   ];
 
@@ -94,15 +94,15 @@ export default function PricingPage() {
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
+        {/* Header - CHANGED: green-50 to brand green light */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-50 border border-green-100 mb-6">
-            <span className="text-green-600 font-medium text-sm">Clear & Transparent Pricing</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#10B981] bg-opacity-10 border border-[#10B981] border-opacity-20 mb-6">
+            <span className="text-[#10B981] font-medium text-sm">Clear & Transparent Pricing</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             Simple Pricing for
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
               Nigerian Schools
             </span>
           </h1>
@@ -113,14 +113,14 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Category Selection */}
+        {/* Category Selection - CHANGED: green to brand green, blue to brand green darker */}
         <div className="flex justify-center mb-12">
           <div className="inline-flex bg-white rounded-full border border-gray-200 p-1">
             <button
               onClick={() => setSelectedCategory('schools')}
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 selectedCategory === 'schools'
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow'
+                  ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow'
                   : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
@@ -130,7 +130,7 @@ export default function PricingPage() {
               onClick={() => setSelectedCategory('enterprise')}
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
                 selectedCategory === 'enterprise'
-                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow'
+                  ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow'
                   : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
@@ -148,18 +148,20 @@ export default function PricingPage() {
                 <div 
                   key={idx} 
                   className={`bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100 hover:shadow-xl transition-shadow ${
-                    tool.popular ? 'relative border-green-200' : ''
+                    tool.popular ? 'relative border-[#10B981]' : ''
                   }`}
                 >
                   {tool.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <div className="px-4 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-sm font-semibold rounded-full">
+                      {/* CHANGED: green gradient to amber (kept gold for "Most Popular") */}
+                      <div className="px-4 py-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-sm font-semibold rounded-full">
                         Most Popular
                       </div>
                     </div>
                   )}
                   
-                  <div className={`h-2 w-full bg-gradient-to-r ${tool.color} rounded-t-lg -mx-6 -mt-6 mb-6`}></div>
+                  {/* CHANGED: from dynamic color to brand green top border */}
+                  <div className="h-2 w-full bg-gradient-to-r from-[#10B981] to-[#059669] rounded-t-lg -mx-6 -mt-6 mb-6"></div>
                   
                   <div className="mb-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-1">{tool.name}</h3>
@@ -172,7 +174,7 @@ export default function PricingPage() {
                       <span className="text-gray-500 ml-2">{tool.period}</span>
                     </div>
                     {tool.price === 'Free' && (
-                      <div className="text-green-600 text-sm font-medium mt-1">
+                      <div className="text-[#10B981] text-sm font-medium mt-1">
                         Included with any paid tool
                       </div>
                     )}
@@ -181,7 +183,8 @@ export default function PricingPage() {
                   <ul className="space-y-3 mb-8">
                     {tool.features.map((feature, fIdx) => (
                       <li key={fIdx} className="flex items-center text-gray-700">
-                        <svg className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        {/* CHANGED: green-500 to brand green */}
+                        <svg className="w-5 h-5 text-[#10B981] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                         <span className="text-sm">{feature}</span>
@@ -189,15 +192,16 @@ export default function PricingPage() {
                     ))}
                   </ul>
                   
-                  <button className={`w-full bg-gradient-to-r ${tool.color} text-white font-semibold py-3 rounded-lg hover:shadow-md transition-all`}>
+                  {/* CHANGED: from dynamic color to brand green gradient */}
+                  <button className="w-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold py-3 rounded-lg hover:shadow-md transition-all">
                     Select This Tool
                   </button>
                 </div>
               ))}
             </div>
 
-            {/* Example Calculation */}
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100 mb-12">
+            {/* Example Calculation - CHANGED: blue gradient to green gradient */}
+            <div className="bg-gradient-to-r from-[#10B981] bg-opacity-5 to-[#059669] bg-opacity-5 rounded-2xl p-6 border border-[#10B981] border-opacity-20 mb-12">
               <h3 className="text-xl font-bold text-gray-900 mb-4">📊 Example Cost Calculation</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -238,23 +242,24 @@ export default function PricingPage() {
                   <h4 className="font-semibold text-gray-900 mb-2">What You Get:</h4>
                   <ul className="space-y-2 text-gray-700">
                     <li className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
+                      {/* CHANGED: green-500 to brand green */}
+                      <span className="text-[#10B981] mr-2">✓</span>
                       Complete digital transformation
                     </li>
                     <li className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
+                      <span className="text-[#10B981] mr-2">✓</span>
                       Time savings for teachers (10+ hours/week)
                     </li>
                     <li className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
+                      <span className="text-[#10B981] mr-2">✓</span>
                       Improved parent communication
                     </li>
                     <li className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
+                      <span className="text-[#10B981] mr-2">✓</span>
                       Professional reporting system
                     </li>
                     <li className="flex items-center">
-                      <span className="text-green-500 mr-2">✓</span>
+                      <span className="text-[#10B981] mr-2">✓</span>
                       Financial management included
                     </li>
                   </ul>
@@ -262,8 +267,8 @@ export default function PricingPage() {
               </div>
             </div>
 
-            {/* Bundle Option */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 border border-green-100 text-center mb-12">
+            {/* Bundle Option - CHANGED: green gradient to brand green */}
+            <div className="bg-gradient-to-r from-[#10B981] bg-opacity-5 to-[#059669] bg-opacity-5 rounded-2xl p-8 border border-[#10B981] border-opacity-20 text-center mb-12">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">💰 Want All Tools?</h2>
               <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                 Get all 5 tools at a discounted bundle price. Perfect for schools wanting 
@@ -273,7 +278,7 @@ export default function PricingPage() {
                 <div className="text-4xl font-bold text-gray-900">Custom Bundle Pricing</div>
                 <div className="text-gray-600">Based on your school size and needs</div>
               </div>
-              <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105">
+              <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105">
                 <span>Get Custom Quote</span>
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -283,10 +288,10 @@ export default function PricingPage() {
           </>
         )}
 
-        {/* Enterprise Solutions */}
+        {/* Enterprise Solutions - CHANGED: blue to brand green */}
         {selectedCategory === 'enterprise' && (
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-8 border border-blue-100 mb-8">
+            <div className="bg-gradient-to-r from-[#10B981] bg-opacity-5 to-[#059669] bg-opacity-5 rounded-2xl p-8 border border-[#10B981] border-opacity-20 mb-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Enterprise Solutions</h2>
               <p className="text-gray-700 mb-6">
                 Custom school management systems for educational institutions, government bodies, 
@@ -298,26 +303,27 @@ export default function PricingPage() {
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Who It's For:</h3>
                   <ul className="space-y-3">
                     <li className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-blue-600">🏢</span>
+                      {/* CHANGED: blue-100 to green bg-opacity */}
+                      <div className="w-8 h-8 bg-[#10B981] bg-opacity-10 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-[#10B981]">🏢</span>
                       </div>
                       <span>Large private school chains</span>
                     </li>
                     <li className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-blue-600">🏛️</span>
+                      <div className="w-8 h-8 bg-[#10B981] bg-opacity-10 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-[#10B981]">🏛️</span>
                       </div>
                       <span>Government education departments</span>
                     </li>
                     <li className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-blue-600">🎓</span>
+                      <div className="w-8 h-8 bg-[#10B981] bg-opacity-10 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-[#10B981]">🎓</span>
                       </div>
                       <span>Educational NGOs</span>
                     </li>
                     <li className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-blue-600">📚</span>
+                      <div className="w-8 h-8 bg-[#10B981] bg-opacity-10 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-[#10B981]">📚</span>
                       </div>
                       <span>University-affiliated schools</span>
                     </li>
@@ -349,8 +355,9 @@ export default function PricingPage() {
                 {enterpriseFeatures.map((feature, idx) => (
                   <div key={idx} className="bg-white rounded-xl p-4 border border-gray-100">
                     <div className="flex items-center">
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                        <span className="text-blue-600">✓</span>
+                      {/* CHANGED: blue-100 to green bg-opacity */}
+                      <div className="w-8 h-8 bg-[#10B981] bg-opacity-10 rounded-lg flex items-center justify-center mr-3">
+                        <span className="text-[#10B981]">✓</span>
                       </div>
                       <span className="text-gray-700">{feature}</span>
                     </div>
@@ -359,9 +366,9 @@ export default function PricingPage() {
               </div>
             </div>
 
-            {/* Contact for Enterprise */}
+            {/* Contact for Enterprise - CHANGED: blue gradient to green */}
             <div className="text-center">
-              <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105 mb-4">
+              <button className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105 mb-4">
                 <span>Schedule Enterprise Demo</span>
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -411,10 +418,10 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Final CTA */}
+        {/* Final CTA - CHANGED: green to brand green */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-50 border border-green-100 mb-6">
-            <span className="text-green-600 font-medium text-sm">Start Your Digital Journey</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#10B981] bg-opacity-10 border border-[#10B981] border-opacity-20 mb-6">
+            <span className="text-[#10B981] font-medium text-sm">Start Your Digital Journey</span>
           </div>
           
           <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -422,10 +429,10 @@ export default function PricingPage() {
           </h2>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105">
+            <button className="px-8 py-4 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105">
               Start 30-Day Free Trial
             </button>
-            <button className="px-8 py-4 border-2 border-green-500 text-green-600 font-bold rounded-xl hover:bg-green-50 transition-colors">
+            <button className="px-8 py-4 border-2 border-[#10B981] text-[#10B981] font-bold rounded-xl hover:bg-[#10B981] hover:bg-opacity-5 transition-colors">
               Book a Demo
             </button>
           </div>

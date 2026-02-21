@@ -1,0 +1,20 @@
+/* styles/colors.css */
+:root {
+    /* Brand Green */
+    --brand-green: #10B981;
+    --brand-green-dark: #059669;
+    --brand-green-light: #D1FAE5;
+    --brand-green-lighter: #ECFDF5;
+    
+    /* EduMarket Purple */
+    --edumarket: #8B5CF6;
+    --edumarket-dark: #7C3AED;
+    --edumarket-light: #EDE9FE;
+    --edumarket-gradient: linear-gradient(135deg, #8B5CF6, #DB2777);
+    
+    /* TeacherEarn Orange */
+    --teacherearn: #F59E0B;
+    --teacherearn-dark: #D97706;
+    --teacherearn-light: #FEF3C7;
+    --teacherearn-gradient: linear-gradient(135deg, #F59E0B, #DC2626);
+  }

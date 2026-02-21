@@ -8,7 +8,7 @@ export default function Features() {
       title: "Smart School System (Core Product)",
       description: "Complete administrative control for Nigerian schools",
       icon: "🏫",
-      color: "bg-blue-100",
+      // REMOVED: color: "bg-blue-100"
       href: "/products",
       linkText: "View Products"
     },
@@ -16,7 +16,7 @@ export default function Features() {
       title: "EduMarket Resources",
       description: "Curriculum-aligned materials for Nigerian syllabus",
       icon: "📚",
-      color: "bg-green-100",
+      // REMOVED: color: "bg-green-100"
       href: "/edumarket",
       linkText: "Browse Resources"
     },
@@ -24,7 +24,7 @@ export default function Features() {
       title: "TeacherEarn Platform",
       description: "Teachers earn extra income through tutoring & resources",
       icon: "💰",
-      color: "bg-yellow-100",
+      // REMOVED: color: "bg-yellow-100"
       href: "/teacherearn",
       linkText: "Start Earning"
     },
@@ -32,7 +32,7 @@ export default function Features() {
       title: "Pay-as-you-use",
       description: "Only pay for what you need, no large upfront costs",
       icon: "💳",
-      color: "bg-purple-100",
+      // REMOVED: color: "bg-purple-100"
       href: "/pricing",
       linkText: "See Pricing"
     },
@@ -40,7 +40,7 @@ export default function Features() {
       title: "Mobile First",
       description: "Works perfectly on all devices, optimized for Nigeria",
       icon: "📱",
-      color: "bg-red-100",
+      // REMOVED: color: "bg-red-100"
       href: "/products",
       linkText: "Learn More"
     },
@@ -48,7 +48,7 @@ export default function Features() {
       title: "Nigerian Curriculum",
       description: "All resources aligned with Nigerian educational system",
       icon: "🎯",
-      color: "bg-indigo-100",
+      // REMOVED: color: "bg-indigo-100"
       href: "/about",
       linkText: "About Us"
     }
@@ -68,15 +68,20 @@ export default function Features() {
           {features.map((feature, index) => (
             <div 
               key={index}
-              className={`${feature.color} p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.02] group`}
+              // CHANGED: from {feature.color} to bg-white + brand green border-top
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 hover:scale-[1.02] group border-t-4 border-[#10B981]"
             >
-              <div className="text-4xl mb-4">{feature.icon}</div>
+              {/* Icon container - added brand green background */}
+              <div className="w-14 h-14 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-3xl">{feature.icon}</span>
+              </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900">{feature.title}</h3>
-              <p className="text-gray-700 mb-6">{feature.description}</p>
+              <p className="text-gray-600 mb-6">{feature.description}</p>
               
               <Link 
                 href={feature.href}
-                className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:translate-x-1 duration-300"
+                // CHANGED: text-blue-600 → text-[#10B981]
+                className="inline-flex items-center text-[#10B981] font-semibold hover:text-[#059669] transition-colors group-hover:translate-x-1 duration-300"
               >
                 <span>{feature.linkText}</span>
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,27 +96,28 @@ export default function Features() {
         <div className="mt-16 text-center">
           <h3 className="text-xl font-bold text-gray-900 mb-6">Quick Navigation</h3>
           <div className="flex flex-wrap justify-center gap-4">
+            {/* CHANGED: All buttons to brand green with variations */}
             <Link 
               href="/products"
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] transition-colors"
             >
               Smart School Tools
             </Link>
             <Link 
               href="/edumarket"
-              className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+              className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] transition-colors"
             >
               EduMarket
             </Link>
             <Link 
               href="/teacherearn"
-              className="px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg hover:bg-yellow-700 transition-colors"
+              className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] transition-colors"
             >
               TeacherEarn
             </Link>
             <Link 
               href="/pricing"
-              className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors"
+              className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#059669] transition-colors"
             >
               Pricing
             </Link>

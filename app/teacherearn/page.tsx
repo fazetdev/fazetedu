@@ -14,11 +14,19 @@ export default function TeacherEarnPage() {
     { id: 'webinar', name: 'Webinars', icon: '📹' }
   ];
 
+  // TeacherEarn section colors (orange/amber family)
+  const teacherOrange = {
+    primary: '#F59E0B',  // Amber-500
+    dark: '#D97706',      // Amber-600
+    light: '#FEF3C7',     // Amber-100
+    lighter: '#FFFBEB',   // Amber-50
+    gradient: 'from-[#F59E0B] to-[#DC2626]' // Orange to Red (keep this unique)
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // In a real app, this would fetch from your backend
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
@@ -36,15 +44,15 @@ export default function TeacherEarnPage() {
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
+        {/* Header - CHANGED: orange-50 to consistent orange light */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-50 border border-orange-100 mb-6">
-            <span className="text-orange-600 font-medium text-sm">Extra Income for Teachers</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#FFFBEB] border border-[#F59E0B] border-opacity-20 mb-6">
+            <span className="text-[#F59E0B] font-medium text-sm">Extra Income for Teachers</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             TeacherEarn
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#F59E0B] to-[#DC2626]">
               Extra Income for Educators
             </span>
           </h1>
@@ -55,7 +63,7 @@ export default function TeacherEarnPage() {
           </p>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs - CHANGED: orange/amber gradients to consistent colors */}
         <div className="mb-12">
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             {tabs.map((tab) => (
@@ -64,7 +72,7 @@ export default function TeacherEarnPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center px-6 py-4 rounded-xl font-semibold transition-all ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg'
+                    ? 'bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white shadow-lg'
                     : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -82,13 +90,14 @@ export default function TeacherEarnPage() {
               </h2>
               <button
                 onClick={handlePostOpportunity}
-                className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl hover:shadow-md transition-all"
+                // CHANGED: orange to amber gradient to consistent
+                className="px-6 py-3 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white font-semibold rounded-xl hover:shadow-md transition-all"
               >
                 Post Opportunity
               </button>
             </div>
 
-            {/* Search Bar - FIXED: Removed the onChange from form and kept it on input */}
+            {/* Search Bar */}
             <form onSubmit={handleSearch} className="mb-8">
               <div className="relative">
                 <input
@@ -96,7 +105,8 @@ export default function TeacherEarnPage() {
                   placeholder={`Search ${tabs.find(t => t.id === activeTab)?.name.toLowerCase()}...`}
                   value={searchQuery}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                  className="w-full border border-gray-300 rounded-xl p-4 pl-12 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                  // CHANGED: focus:ring-orange-500 to consistent
+                  className="w-full border border-gray-300 rounded-xl p-4 pl-12 focus:ring-2 focus:ring-[#F59E0B] focus:border-[#F59E0B] outline-none"
                 />
                 <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                   <span className="text-gray-400">🔍</span>
@@ -107,7 +117,8 @@ export default function TeacherEarnPage() {
             {/* Content Area */}
             {isLoading ? (
               <div className="text-center py-16">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500 mb-6"></div>
+                {/* CHANGED: border-orange-500 to consistent */}
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#F59E0B] mb-6"></div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Loading...</h3>
                 <p className="text-gray-600">Finding opportunities for you</p>
               </div>
@@ -126,7 +137,8 @@ export default function TeacherEarnPage() {
                 </p>
                 <button
                   onClick={handlePostOpportunity}
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+                  // CHANGED: orange to amber gradient to consistent
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white font-semibold rounded-xl hover:shadow-lg transition-all"
                 >
                   <span>Post First Opportunity</span>
                 </button>
@@ -143,7 +155,8 @@ export default function TeacherEarnPage() {
           
           <div className="grid md:grid-cols-4 gap-6">
             <div className="bg-white rounded-xl p-6 border border-gray-100 text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              {/* CHANGED: orange-100 to amber-100 to consistent orange light */}
+              <div className="w-16 h-16 bg-gradient-to-r from-[#FEF3C7] to-[#FFEDD5] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📝</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Create Profile</h3>
@@ -151,7 +164,7 @@ export default function TeacherEarnPage() {
             </div>
             
             <div className="bg-white rounded-xl p-6 border border-gray-100 text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-[#FEF3C7] to-[#FFEDD5] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">💼</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Find Opportunities</h3>
@@ -159,7 +172,7 @@ export default function TeacherEarnPage() {
             </div>
             
             <div className="bg-white rounded-xl p-6 border border-gray-100 text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-[#FEF3C7] to-[#FFEDD5] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🤝</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Connect & Agree</h3>
@@ -167,7 +180,7 @@ export default function TeacherEarnPage() {
             </div>
             
             <div className="bg-white rounded-xl p-6 border border-gray-100 text-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-[#FEF3C7] to-[#FFEDD5] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">💰</span>
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Earn Income</h3>
@@ -176,8 +189,8 @@ export default function TeacherEarnPage() {
           </div>
         </div>
 
-        {/* Benefits */}
-        <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-8 border border-orange-100 mb-12">
+        {/* Benefits - CHANGED: orange-50 to amber-50 to consistent orange light */}
+        <div className="bg-gradient-to-r from-[#FFFBEB] to-[#FEF3C7] rounded-2xl p-8 border border-[#F59E0B] border-opacity-20 mb-12">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
             Why Use TeacherEarn?
           </h2>
@@ -187,7 +200,8 @@ export default function TeacherEarnPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-4">For Teachers</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  {/* CHANGED: orange to amber gradient to consistent */}
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -196,7 +210,7 @@ export default function TeacherEarnPage() {
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -205,7 +219,7 @@ export default function TeacherEarnPage() {
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -220,7 +234,7 @@ export default function TeacherEarnPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-4">For Students/Parents</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -229,7 +243,7 @@ export default function TeacherEarnPage() {
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -238,7 +252,7 @@ export default function TeacherEarnPage() {
                   </div>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-amber-500 rounded-lg flex items-center justify-center mr-3 mt-1">
+                  <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] rounded-lg flex items-center justify-center mr-3 mt-1">
                     <span className="text-white text-sm">✓</span>
                   </div>
                   <div>
@@ -263,26 +277,27 @@ export default function TeacherEarnPage() {
             </p>
             <ul className="space-y-4">
               <li className="flex items-center">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-green-600 text-sm">1</span>
+                {/* CHANGED: green-100 to orange light */}
+                <div className="w-6 h-6 bg-[#FEF3C7] rounded-full flex items-center justify-center mr-3">
+                  <span className="text-[#F59E0B] text-sm">1</span>
                 </div>
                 <span className="text-gray-700">Valid teaching qualification/certificate</span>
               </li>
               <li className="flex items-center">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-green-600 text-sm">2</span>
+                <div className="w-6 h-6 bg-[#FEF3C7] rounded-full flex items-center justify-center mr-3">
+                  <span className="text-[#F59E0B] text-sm">2</span>
                 </div>
                 <span className="text-gray-700">Minimum 2 years teaching experience</span>
               </li>
               <li className="flex items-center">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-green-600 text-sm">3</span>
+                <div className="w-6 h-6 bg-[#FEF3C7] rounded-full flex items-center justify-center mr-3">
+                  <span className="text-[#F59E0B] text-sm">3</span>
                 </div>
                 <span className="text-gray-700">Clean background check</span>
               </li>
               <li className="flex items-center">
-                <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-green-600 text-sm">4</span>
+                <div className="w-6 h-6 bg-[#FEF3C7] rounded-full flex items-center justify-center mr-3">
+                  <span className="text-[#F59E0B] text-sm">4</span>
                 </div>
                 <span className="text-gray-700">Professional references</span>
               </li>
@@ -299,13 +314,15 @@ export default function TeacherEarnPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleBrowseOpportunities}
-              className="px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
+              // CHANGED: orange to amber gradient to consistent
+              className="px-8 py-4 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
             >
               Browse Opportunities
             </button>
             <button
               onClick={handlePostOpportunity}
-              className="px-8 py-4 border-2 border-orange-500 text-orange-600 font-bold rounded-xl hover:bg-orange-50 transition-colors"
+              // CHANGED: border-orange-500 to consistent
+              className="px-8 py-4 border-2 border-[#F59E0B] text-[#F59E0B] font-bold rounded-xl hover:bg-[#FFFBEB] transition-colors"
             >
               Start Earning Now
             </button>

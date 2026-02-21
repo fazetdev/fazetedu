@@ -21,11 +21,9 @@ export default function EduMarketPage() {
     e.preventDefault();
     setIsLoading(true);
     
-    // In a real app, this would fetch from your backend
-    // For now, just simulate loading and show empty state
     setTimeout(() => {
       setIsLoading(false);
-      setResources([]); // Empty array - no mock data
+      setResources([]);
     }, 500);
   };
 
@@ -37,19 +35,27 @@ export default function EduMarketPage() {
     alert('Browse resources functionality coming soon!');
   };
 
+  // EduMarket section colors (purple family)
+  const eduPurple = {
+    light: '#8B5CF6',  // Purple-500
+    dark: '#7C3AED',    // Purple-600
+    lighter: '#EDE9FE', // Purple-100
+    gradient: 'from-[#8B5CF6] to-[#DB2777]' // Purple to Pink (keep this unique)
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header */}
+        {/* Header - CHANGED: purple-50 to use consistent purple */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-50 border border-purple-100 mb-6">
-            <span className="text-purple-600 font-medium text-sm">Teachers Marketplace</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#EDE9FE] border border-[#8B5CF6] border-opacity-20 mb-6">
+            <span className="text-[#8B5CF6] font-medium text-sm">Teachers Marketplace</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             EduMarket
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] to-[#DB2777]">
               Buy & Sell Teaching Resources
             </span>
           </h1>
@@ -60,7 +66,7 @@ export default function EduMarketPage() {
           </p>
         </div>
 
-        {/* Search Bar */}
+        {/* Search Bar - CHANGED: focus ring purple-500 to consistent purple */}
         <div className="mb-12">
           <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
             <div className="relative">
@@ -69,14 +75,15 @@ export default function EduMarketPage() {
                 placeholder="Search for lesson plans, worksheets, exam questions..."
                 value={searchQuery}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                className="w-full border border-gray-300 rounded-2xl p-4 pl-12 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none shadow-sm"
+                className="w-full border border-gray-300 rounded-2xl p-4 pl-12 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none shadow-sm"
               />
               <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                 <span className="text-gray-400">🔍</span>
               </div>
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-xl hover:shadow-md transition-shadow"
+                // CHANGED: purple to pink gradient to consistent purple-pink
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white px-6 py-2 rounded-xl hover:shadow-md transition-shadow"
               >
                 Search
               </button>
@@ -84,7 +91,7 @@ export default function EduMarketPage() {
           </form>
         </div>
 
-        {/* Categories */}
+        {/* Categories - CHANGED: purple-500 to consistent purple */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Browse Categories</h2>
           <div className="flex flex-wrap gap-3">
@@ -94,7 +101,7 @@ export default function EduMarketPage() {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`flex items-center px-4 py-3 rounded-xl font-medium transition-all ${
                   selectedCategory === category.id
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow'
+                    ? 'bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white shadow'
                     : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -125,7 +132,8 @@ export default function EduMarketPage() {
 
           {isLoading ? (
             <div className="text-center py-16">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mb-6"></div>
+              {/* CHANGED: purple-500 spinner to consistent purple */}
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#8B5CF6] mb-6"></div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Searching Resources...</h3>
               <p className="text-gray-600">Looking for educational materials</p>
             </div>
@@ -140,7 +148,8 @@ export default function EduMarketPage() {
               </p>
               <button
                 onClick={handleSellResource}
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all mb-4"
+                // CHANGED: purple to pink gradient to consistent
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white font-semibold rounded-xl hover:shadow-lg transition-all mb-4"
               >
                 <span>Share Your First Resource</span>
               </button>
@@ -155,34 +164,34 @@ export default function EduMarketPage() {
           )}
         </div>
 
-        {/* Sell Resources Section */}
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-8 md:p-12 border border-purple-100 mb-12">
+        {/* Sell Resources Section - CHANGED: purple-50 to consistent purple light */}
+        <div className="bg-gradient-to-r from-[#EDE9FE] to-[#FCE7F3] rounded-2xl p-8 md:p-12 border border-[#8B5CF6] border-opacity-20 mb-12">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white border border-purple-100 mb-6">
-              <span className="text-purple-600 font-medium text-sm">Earn Extra Income</span>
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white border border-[#8B5CF6] border-opacity-20 mb-6">
+              <span className="text-[#8B5CF6] font-medium text-sm">Earn Extra Income</span>
             </div>
             
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Have Great Teaching Resources?
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#8B5CF6] to-[#DB2777]">
                 Start Selling on EduMarket
               </span>
             </h2>
             
             <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white rounded-xl p-6 border border-purple-100">
+              <div className="bg-white rounded-xl p-6 border border-[#8B5CF6] border-opacity-20">
                 <div className="text-3xl mb-4">📤</div>
                 <h3 className="font-bold text-gray-900 mb-2">Upload Resources</h3>
                 <p className="text-gray-600 text-sm">Share your lesson plans, worksheets, and materials</p>
               </div>
               
-              <div className="bg-white rounded-xl p-6 border border-purple-100">
+              <div className="bg-white rounded-xl p-6 border border-[#8B5CF6] border-opacity-20">
                 <div className="text-3xl mb-4">💰</div>
                 <h3 className="font-bold text-gray-900 mb-2">Set Your Price</h3>
                 <p className="text-gray-600 text-sm">Earn money from other teachers using your resources</p>
               </div>
               
-              <div className="bg-white rounded-xl p-6 border border-purple-100">
+              <div className="bg-white rounded-xl p-6 border border-[#8B5CF6] border-opacity-20">
                 <div className="text-3xl mb-4">👨‍🏫</div>
                 <h3 className="font-bold text-gray-900 mb-2">Build Reputation</h3>
                 <p className="text-gray-600 text-sm">Get rated and become a trusted resource creator</p>
@@ -191,7 +200,8 @@ export default function EduMarketPage() {
             
             <button
               onClick={handleSellResource}
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
+              // CHANGED: purple to pink gradient to consistent
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
             >
               <span>Start Selling Resources</span>
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,8 +221,9 @@ export default function EduMarketPage() {
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">For Buyers</h3>
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-purple-600">1</span>
+                {/* CHANGED: purple-100 to consistent purple light */}
+                <div className="w-10 h-10 bg-[#EDE9FE] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#8B5CF6]">1</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Search & Browse</h4>
@@ -221,8 +232,8 @@ export default function EduMarketPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-purple-600">2</span>
+                <div className="w-10 h-10 bg-[#EDE9FE] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#8B5CF6]">2</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Purchase Securely</h4>
@@ -231,8 +242,8 @@ export default function EduMarketPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-purple-600">3</span>
+                <div className="w-10 h-10 bg-[#EDE9FE] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#8B5CF6]">3</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Download & Use</h4>
@@ -244,32 +255,33 @@ export default function EduMarketPage() {
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">For Sellers</h3>
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-pink-600">1</span>
+                {/* CHANGED: pink-100 to pink light (keep pink for sellers) */}
+                <div className="w-10 h-10 bg-[#FCE7F3] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#DB2777]">1</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Create Account</h4>
-                  <p className="text-gray-600">Sign up as a seller (verification required)</p>
+                  <p className="text-gray-600 text-sm">Sign up as a seller (verification required)</p>
                 </div>
               </div>
               
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-pink-600">2</span>
+                <div className="w-10 h-10 bg-[#FCE7F3] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#DB2777]">2</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Upload Materials</h4>
-                  <p className="text-gray-600">Share your best teaching resources</p>
+                  <p className="text-gray-600 text-sm">Share your best teaching resources</p>
                 </div>
               </div>
               
               <div className="flex items-start">
-                <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
-                  <span className="text-pink-600">3</span>
+                <div className="w-10 h-10 bg-[#FCE7F3] rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                  <span className="text-[#DB2777]">3</span>
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 mb-2">Earn Income</h4>
-                  <p className="text-gray-600">Get paid when other teachers buy your resources</p>
+                  <p className="text-gray-600 text-sm">Get paid when other teachers buy your resources</p>
                 </div>
               </div>
             </div>
@@ -285,13 +297,15 @@ export default function EduMarketPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleBrowseResources}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
+              // CHANGED: purple to pink gradient to consistent
+              className="px-8 py-4 bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white font-bold rounded-xl hover:shadow-xl transition-all hover:scale-105"
             >
               Browse Resources
             </button>
             <button
               onClick={handleSellResource}
-              className="px-8 py-4 border-2 border-purple-500 text-purple-600 font-bold rounded-xl hover:bg-purple-50 transition-colors"
+              // CHANGED: purple border to consistent
+              className="px-8 py-4 border-2 border-[#8B5CF6] text-[#8B5CF6] font-bold rounded-xl hover:bg-[#EDE9FE] transition-colors"
             >
               Become a Seller
             </button>

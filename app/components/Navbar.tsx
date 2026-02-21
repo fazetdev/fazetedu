@@ -11,49 +11,51 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           
-          {/* Logo */}
+          {/* Logo - ONLY CHANGE: blue to green */}
           <Link href="/" className="flex items-center">
-            <span className="text-blue-600 font-bold text-xl">Fazet Edu</span>
+            <span className="text-[#10B981] font-bold text-xl">Fazet Edu</span>
             <span className="text-gray-500 text-sm ml-1">.ng</span>
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-8">
-            <Link href="/products" className="text-gray-700 hover:text-blue-600">
+            <Link href="/products" className="text-gray-700 hover:text-[#10B981]">
               Products
             </Link>
 
-            <Link href="/edumarket" className="text-gray-700 hover:text-blue-600">
+            <Link href="/edumarket" className="text-gray-700 hover:text-[#10B981]">
               EduMarket
             </Link>
 
+            {/* TeacherEarn - KEPT GREEN but using brand green */}
             <Link
               href="/teacherearn"
-              className="text-green-600 font-bold hover:text-green-700"
+              className="text-[#10B981] font-bold hover:text-[#059669]"
             >
               TeacherEarn
             </Link>
 
-            <Link href="/pricing" className="text-gray-700 hover:text-blue-600">
+            <Link href="/pricing" className="text-gray-700 hover:text-[#10B981]">
               Pricing
             </Link>
 
-            <Link href="/about" className="text-gray-700 hover:text-blue-600">
+            <Link href="/about" className="text-gray-700 hover:text-[#10B981]">
               About
             </Link>
 
-            <Link href="/testimonials" className="text-gray-700 hover:text-blue-600">
+            <Link href="/testimonials" className="text-gray-700 hover:text-[#10B981]">
               Testimonials
             </Link>
 
-            <Link href="/contact" className="text-gray-700 hover:text-blue-600">
+            <Link href="/contact" className="text-gray-700 hover:text-[#10B981]">
               Contact
             </Link>
           </div>
 
           {/* Right Side */}
           <div className="flex items-center space-x-4">
-            <button className="hidden sm:block bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700">
+            {/* ONLY CHANGE: green-600 to brand green */}
+            <button className="hidden sm:block bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669]">
               Join pilot
             </button>
 
@@ -91,38 +93,39 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-2 border-t pt-4">
-            <Link href="/products" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/products" className="block text-gray-700 hover:text-[#10B981]">
               Products
             </Link>
 
-            <Link href="/edumarket" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/edumarket" className="block text-gray-700 hover:text-[#10B981]">
               EduMarket
             </Link>
 
             <Link
               href="/teacherearn"
-              className="block text-green-600 font-bold hover:text-green-700"
+              className="block text-[#10B981] font-bold hover:text-[#059669]"
             >
               ✨ TeacherEarn
             </Link>
 
-            <Link href="/pricing" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/pricing" className="block text-gray-700 hover:text-[#10B981]">
               Pricing
             </Link>
 
-            <Link href="/about" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/about" className="block text-gray-700 hover:text-[#10B981]">
               About
             </Link>
 
-            <Link href="/testimonials" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/testimonials" className="block text-gray-700 hover:text-[#10B981]">
               Testimonials
             </Link>
 
-            <Link href="/contact" className="block text-gray-700 hover:text-blue-600">
+            <Link href="/contact" className="block text-gray-700 hover:text-[#10B981]">
               Contact
             </Link>
 
-            <button className="w-full mt-2 bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 sm:hidden">
+            {/* ONLY CHANGE: green-600 to brand green */}
+            <button className="w-full mt-2 bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669] sm:hidden">
               Join pilot
             </button>
           </div>

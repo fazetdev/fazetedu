@@ -36,7 +36,6 @@ export default function TestimonialsPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Add new testimonial to the list
     const newTestimonialObj = {
       id: testimonials.length + 1,
       ...newTestimonial,
@@ -45,7 +44,6 @@ export default function TestimonialsPage() {
     
     setTestimonials([newTestimonialObj, ...testimonials]);
     
-    // Reset form and hide it
     setNewTestimonial({
       name: '',
       school: '',
@@ -63,15 +61,15 @@ export default function TestimonialsPage() {
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         
-        {/* Header */}
+        {/* Header - CHANGED: orange to green */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-orange-50 border border-orange-100 mb-6">
-            <span className="text-orange-600 font-medium text-sm">Real Stories</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#10B981] bg-opacity-10 border border-[#10B981] border-opacity-20 mb-6">
+            <span className="text-[#10B981] font-medium text-sm">Real Stories</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             What Schools Say About
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
               Fazet Edu
             </span>
           </h1>
@@ -99,7 +97,8 @@ export default function TestimonialsPage() {
               </p>
               <button
                 onClick={() => setShowForm(true)}
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all hover:scale-105"
+                // CHANGED: orange gradient to green gradient
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold rounded-lg hover:shadow-lg transition-all hover:scale-105"
               >
                 <span>Share Your Story</span>
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,10 +130,10 @@ export default function TestimonialsPage() {
                     "{testimonial.message}"
                   </p>
                   
-                  {/* Author Info */}
+                  {/* Author Info - CHANGED: orange gradient to green gradient */}
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full flex items-center justify-center mr-4">
-                      <span className="text-xl">{testimonial.name.charAt(0)}</span>
+                    <div className="w-12 h-12 bg-gradient-to-r from-[#10B981] to-[#059669] bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                      <span className="text-xl text-[#10B981] font-bold">{testimonial.name.charAt(0)}</span>
                     </div>
                     <div>
                       <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
@@ -149,11 +148,11 @@ export default function TestimonialsPage() {
           )}
         </div>
 
-        {/* Add Testimonial Button (Always visible at bottom) */}
+        {/* Add Testimonial Button (Fixed at bottom) - CHANGED: orange to green */}
         <div className="fixed bottom-8 right-8">
           <button
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center px-6 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
+            className="inline-flex items-center px-6 py-4 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
           >
             <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -186,7 +185,8 @@ export default function TestimonialsPage() {
                       id="name"
                       type="text"
                       placeholder="Enter your name"
-                      className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                      // CHANGED: focus ring orange → green
+                      className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] outline-none transition-all"
                       value={newTestimonial.name}
                       onChange={(e) => setNewTestimonial({...newTestimonial, name: e.target.value})}
                       required
@@ -202,7 +202,8 @@ export default function TestimonialsPage() {
                         id="school"
                         type="text"
                         placeholder="Your school"
-                        className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                        // CHANGED: focus ring orange → green
+                        className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] outline-none transition-all"
                         value={newTestimonial.school}
                         onChange={(e) => setNewTestimonial({...newTestimonial, school: e.target.value})}
                         required
@@ -215,7 +216,8 @@ export default function TestimonialsPage() {
                       </label>
                       <select
                         id="role"
-                        className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                        // CHANGED: focus ring orange → green
+                        className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] outline-none transition-all"
                         value={newTestimonial.role}
                         onChange={(e) => setNewTestimonial({...newTestimonial, role: e.target.value})}
                         required
@@ -259,7 +261,8 @@ export default function TestimonialsPage() {
                     <textarea
                       id="message"
                       placeholder="Tell us about your experience with Fazet Edu. What worked well? What could be improved?"
-                      className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                      // CHANGED: focus ring orange → green
+                      className="w-full border border-gray-300 rounded-xl p-4 focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] outline-none transition-all"
                       rows={4}
                       value={newTestimonial.message}
                       onChange={(e) => setNewTestimonial({...newTestimonial, message: e.target.value})}
@@ -271,7 +274,8 @@ export default function TestimonialsPage() {
                     <input
                       type="checkbox"
                       id="consent"
-                      className="h-5 w-5 text-orange-600 rounded"
+                      // CHANGED: orange-600 → green
+                      className="h-5 w-5 text-[#10B981] rounded"
                       required
                     />
                     <label htmlFor="consent" className="ml-3 text-gray-600 text-sm">
@@ -289,7 +293,8 @@ export default function TestimonialsPage() {
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold py-3 rounded-xl hover:shadow-xl transition-all hover:scale-[1.02]"
+                      // CHANGED: orange gradient to green gradient
+                      className="flex-1 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold py-3 rounded-xl hover:shadow-xl transition-all hover:scale-[1.02]"
                     >
                       Submit Your Story
                     </button>
