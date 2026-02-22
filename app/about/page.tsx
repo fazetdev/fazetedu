@@ -1,17 +1,18 @@
+
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         
-        {/* Hero Section */}
+        {/* Hero Section - UPDATED to brand green */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-50 border border-green-100 mb-6">
-            <span className="text-green-700 font-medium text-sm">Our Story & Mission</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#10B981] bg-opacity-10 border border-[#10B981] border-opacity-20 mb-6">
+            <span className="text-[#10B981] font-medium text-sm">Our Story & Mission</span>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             Building the Future of
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
               Education in Northern Nigeria
             </span>
           </h1>
@@ -22,7 +23,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* The Problem Section */}
+        {/* The Problem Section - Keep red for warning (good as is) */}
         <div className="mb-16 p-8 bg-red-50 rounded-2xl border border-red-100">
           <div className="flex items-center mb-6">
             <div className="p-3 bg-red-100 rounded-xl mr-4">
@@ -78,26 +79,26 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Our Solution */}
+        {/* Our Solution - UPDATED to brand green */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             Our Solution: Built for Local Realities
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-[#10B981] transition-colors">
               <div className="text-4xl mb-4">💰</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Affordable</h3>
               <p className="text-gray-600">Pay-as-you-go pricing that fits school budgets</p>
             </div>
             
-            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-[#10B981] transition-colors">
               <div className="text-4xl mb-4">📱</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Mobile-First</h3>
               <p className="text-gray-600">Works on any smartphone, no computers needed</p>
             </div>
             
-            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="text-center p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-[#10B981] transition-colors">
               <div className="text-4xl mb-4">👩‍🏫</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Teacher-Centric</h3>
               <p className="text-gray-600">Designed by teachers, for teachers</p>
@@ -105,28 +106,31 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* The Platform */}
+        {/* The Platform - UPDATED to match actual section colors */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             More Than Just Tools - An Ecosystem
           </h2>
           
           <div className="space-y-6">
-            <div className="p-6 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
+            {/* Smart School Tools - Brand green */}
+            <div className="p-6 bg-gradient-to-r from-[#10B981] bg-opacity-5 to-[#059669] bg-opacity-5 rounded-xl border border-[#10B981] border-opacity-20">
               <h3 className="text-xl font-bold text-gray-900 mb-2">Smart School Tools</h3>
               <p className="text-gray-700">
                 Digital registers, automated reports, fee management - all the essential tools schools need to run efficiently.
               </p>
             </div>
             
-            <div className="p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+            {/* TeacherEarn - Orange (matches TeacherEarn section) */}
+            <div className="p-6 bg-gradient-to-r from-[#F59E0B] bg-opacity-5 to-[#DC2626] bg-opacity-5 rounded-xl border border-[#F59E0B] border-opacity-20">
               <h3 className="text-xl font-bold text-gray-900 mb-2">TeacherEarn</h3>
               <p className="text-gray-700">
                 Creating new income opportunities for teachers through content creation, tutoring, and resource sharing.
               </p>
             </div>
             
-            <div className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+            {/* EduMarket - Purple (matches EduMarket section) */}
+            <div className="p-6 bg-gradient-to-r from-[#8B5CF6] bg-opacity-5 to-[#DB2777] bg-opacity-5 rounded-xl border border-[#8B5CF6] border-opacity-20">
               <h3 className="text-xl font-bold text-gray-900 mb-2">EduMarket</h3>
               <p className="text-gray-700">
                 A marketplace for educational resources, connecting teachers with quality materials they can actually use.
@@ -135,14 +139,14 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Mission Statement */}
-        <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-8 text-white">
+        {/* Mission Statement - UPDATED to brand green */}
+        <div className="bg-gradient-to-r from-[#10B981] to-[#059669] rounded-2xl p-8 text-white">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-center">Our Mission in Three Parts</h2>
             
             <div className="space-y-6">
               <div className="flex items-start">
-                <div className="bg-white text-green-600 rounded-full p-3 mr-4">
+                <div className="bg-white text-[#10B981] rounded-full p-3 mr-4">
                   <span className="font-bold text-xl">1</span>
                 </div>
                 <div>
@@ -152,7 +156,7 @@ export default function AboutPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="bg-white text-green-600 rounded-full p-3 mr-4">
+                <div className="bg-white text-[#10B981] rounded-full p-3 mr-4">
                   <span className="font-bold text-xl">2</span>
                 </div>
                 <div>
@@ -162,7 +166,7 @@ export default function AboutPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="bg-white text-green-600 rounded-full p-3 mr-4">
+                <div className="bg-white text-[#10B981] rounded-full p-3 mr-4">
                   <span className="font-bold text-xl">3</span>
                 </div>
                 <div>
@@ -174,10 +178,10 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Pilot Phase */}
+        {/* Pilot Phase - UPDATED to brand green */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-50 border border-yellow-100 mb-6">
-            <span className="text-yellow-700 font-medium text-sm">🚀 Currently in Pilot Phase</span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#10B981] bg-opacity-10 border border-[#10B981] border-opacity-20 mb-6">
+            <span className="text-[#10B981] font-medium text-sm">🚀 Currently in Pilot Phase</span>
           </div>
           
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -186,7 +190,7 @@ export default function AboutPage() {
             truly work for their unique challenges.
           </p>
           
-          <button className="mt-8 px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all hover:scale-105">
+          <button className="mt-8 px-8 py-3 bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold rounded-lg hover:shadow-lg transition-all hover:scale-105">
             Join Our Pilot Program
           </button>
         </div>
