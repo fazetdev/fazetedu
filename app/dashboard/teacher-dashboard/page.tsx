@@ -24,7 +24,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* Dashboard Containers */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
             <span className="text-3xl mb-2">💰</span>
             <h2 className="font-semibold text-gray-900 text-lg">Earning</h2>

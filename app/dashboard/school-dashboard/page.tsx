@@ -1,18 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const schoolModules = [
-  { id: 'products', name: 'Products', description: 'Manage and access school products', icon: '📦' },
-  { id: 'students', name: 'Students', description: 'Manage your students', icon: '👨‍🎓' },
-  { id: 'teachers', name: 'Teachers', description: 'Manage your teachers', icon: '👩‍🏫' },
-  { id: 'post-jobs', name: 'Post Jobs', description: 'Post teaching opportunities', icon: '📢' },
-  { id: 'free-resources', name: 'Free Resources', description: 'Add or view free educational materials', icon: '📚' },
-  { id: 'analytics', name: 'Analytics', description: 'View school performance metrics', icon: '📊' },
+  { id: 'products', name: 'Products', description: 'Manage and access school products', icon: '📦', link: '/smart-school' },
+  { id: 'students', name: 'Students', description: 'Manage your students', icon: '👨‍🎓', link: '/dashboard/school-dashboard/students' },
+  { id: 'teachers', name: 'Teachers', description: 'Manage your teachers', icon: '👩‍🏫', link: '/dashboard/school-dashboard/teachers' },
+  { id: 'post-jobs', name: 'Post Jobs', description: 'Post teaching opportunities', icon: '📢', link: '/dashboard/school-dashboard/post-jobs' },
+  { id: 'free-resources', name: 'Free Resources', description: 'Add or view free educational materials', icon: '📚', link: '/dashboard/school-dashboard/free-resources' },
+  { id: 'analytics', name: 'Analytics', description: 'View school performance metrics', icon: '📊', link: '/dashboard/school-dashboard/analytics' },
 ];
 
 export default function SchoolDashboardPage() {
-  const [profileProgress, setProfileProgress] = useState(70); // Example progress
+  const [profileProgress] = useState(70); // Example progress
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-gray-50 p-6 sm:p-12">
@@ -41,12 +43,13 @@ export default function SchoolDashboardPage() {
         </div>
       </div>
 
-      {/* Dashboard Modules */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Dashboard Modules - 2x2 for all devices */}
+      <div className="grid grid-cols-2 gap-6">
         {schoolModules.map((module) => (
           <div
             key={module.id}
-            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all flex flex-col"
+            onClick={() => router.push(module.link)}
+            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl cursor-pointer flex flex-col"
           >
             <div className="text-4xl mb-4">{module.icon}</div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">{module.name}</h3>

@@ -2,28 +2,18 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation' // Add this
 import PilotModal from './PilotModal'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [showPilotModal, setShowPilotModal] = useState(false)
-  const router = useRouter() // Add this
-
-  const handleJoinPilot = () => {
-    // Direct to register page instead of modal
-    router.push('/register')
-    // Or keep modal if you prefer:
-    // setShowPilotModal(true)
-    setIsOpen(false)
-  }
 
   return (
     <>
       <nav className="bg-white shadow-md relative">
         <div className="container mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
-            
+
             <Link href="/" className="flex items-center">
               <span className="text-[#10B981] font-bold text-xl">Fazet Edu</span>
               <span className="text-gray-500 text-sm ml-1">.ng</span>
@@ -40,17 +30,15 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center space-x-4">
-              {/* Add Login link */}
               <Link 
-                href="/login" 
+                href="/auth/login" 
                 className="hidden sm:block text-gray-600 hover:text-[#10B981] font-medium"
               >
                 Sign In
               </Link>
-              
-              {/* Change this button to link or keep as button */}
+
               <Link
-                href="/register"
+                href="/auth/register"
                 className="hidden sm:block bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669]"
               >
                 Start Free Trial
@@ -75,22 +63,21 @@ export default function Navbar() {
             <div className="md:hidden mt-4 pb-4 space-y-2 border-t pt-4">
               <Link href="/products" className="block text-gray-700 hover:text-[#10B981]">Products</Link>
               <Link href="/edumarket" className="block text-gray-700 hover:text-[#10B981]">EduMarket</Link>
-              <Link href="/teacherearn" className="block text-[#10B981] font-bold hover:text-[#059669]">✨ TeacherEarn</Link>
+              <Link href="/teacherearn" className="block text-[#10B981] font-bold hover:text-[#059669]">TeacherEarn</Link>
               <Link href="/pricing" className="block text-gray-700 hover:text-[#10B981]">Pricing</Link>
               <Link href="/about" className="block text-gray-700 hover:text-[#10B981]">About</Link>
               <Link href="/testimonials" className="block text-gray-700 hover:text-[#10B981]">Testimonials</Link>
               <Link href="/contact" className="block text-gray-700 hover:text-[#10B981]">Contact</Link>
-              
-              {/* Add login/register in mobile menu */}
+
               <div className="pt-2 mt-2 border-t">
                 <Link 
-                  href="/login" 
+                  href="/auth/login" 
                   className="block text-gray-700 hover:text-[#10B981] py-2"
                 >
                   Sign In
                 </Link>
                 <Link
-                  href="/register"
+                  href="/auth/register"
                   className="block bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669] text-center mt-2"
                 >
                   Start Free Trial
