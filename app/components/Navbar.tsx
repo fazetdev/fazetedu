@@ -2,14 +2,19 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation' // Add this
 import PilotModal from './PilotModal'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [showPilotModal, setShowPilotModal] = useState(false)
+  const router = useRouter() // Add this
 
   const handleJoinPilot = () => {
-    setShowPilotModal(true)
+    // Direct to register page instead of modal
+    router.push('/register')
+    // Or keep modal if you prefer:
+    // setShowPilotModal(true)
     setIsOpen(false)
   }
 
@@ -35,12 +40,21 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <button 
-                onClick={handleJoinPilot}
+              {/* Add Login link */}
+              <Link 
+                href="/login" 
+                className="hidden sm:block text-gray-600 hover:text-[#10B981] font-medium"
+              >
+                Sign In
+              </Link>
+              
+              {/* Change this button to link or keep as button */}
+              <Link
+                href="/register"
                 className="hidden sm:block bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669]"
               >
-                Join pilot
-              </button>
+                Start Free Trial
+              </Link>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -66,12 +80,22 @@ export default function Navbar() {
               <Link href="/about" className="block text-gray-700 hover:text-[#10B981]">About</Link>
               <Link href="/testimonials" className="block text-gray-700 hover:text-[#10B981]">Testimonials</Link>
               <Link href="/contact" className="block text-gray-700 hover:text-[#10B981]">Contact</Link>
-              <button 
-                onClick={handleJoinPilot}
-                className="w-full mt-2 bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669] sm:hidden"
-              >
-                Join pilot
-              </button>
+              
+              {/* Add login/register in mobile menu */}
+              <div className="pt-2 mt-2 border-t">
+                <Link 
+                  href="/login" 
+                  className="block text-gray-700 hover:text-[#10B981] py-2"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/register"
+                  className="block bg-[#10B981] text-white px-4 py-2 rounded-lg font-bold hover:bg-[#059669] text-center mt-2"
+                >
+                  Start Free Trial
+                </Link>
+              </div>
             </div>
           )}
         </div>
