@@ -1,76 +1,59 @@
 'use client';
 
-import { useState } from 'react';
+import Image from 'next/image';
+import profilePic from '@/public/file.svg';
 
 export default function TeacherDashboard() {
-  const [teacher, setTeacher] = useState({
-    name: 'John Doe',
-    profilePic: '/default-teacher.png',
-    profileCompletion: 70,
-  });
-
-  const amberGradient = 'from-[#F59E0B] to-[#DC2626]';
-
   return (
-    <main className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-
         {/* Header */}
-        <div className="flex justify-between items-center mb-8 flex-col sm:flex-row sm:items-center sm:space-x-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-0">
-            Teacher Dashboard
-          </h1>
-          <div className="flex items-center space-x-4">
-            <div className="flex flex-col items-end">
-              <span className="font-semibold text-gray-700">{teacher.name}</span>
-              <div className="w-40 bg-gray-200 rounded-full h-2 mt-1">
-                <div
-                  className={`h-2 rounded-full bg-gradient-to-r ${amberGradient}`}
-                  style={{ width: `${teacher.profileCompletion}%` }}
-                ></div>
-              </div>
-            </div>
-            <img
-              src={teacher.profilePic}
-              alt="Teacher Profile"
-              className="w-14 h-14 rounded-full object-cover border-2 border-[#F59E0B]"
-            />
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Teacher Dashboard</h1>
+          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#F59E0B]">
+            <Image src={profilePic} alt="Profile" width={64} height={64} />
           </div>
         </div>
 
-        {/* 2x3 Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Profile Progress */}
+        <div className="mb-8">
+          <label className="text-gray-700 font-medium">Profile Completion</label>
+          <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
+            <div className="bg-gradient-to-r from-[#F59E0B] to-[#DC2626] h-4 rounded-full w-3/5"></div>
+          </div>
+        </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Earning</h2>
+        {/* Dashboard Containers */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">💰</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Earning</h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Materials for Selling</h2>
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">📚</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Materials for Selling</h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Bookings</h2>
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">📅</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Bookings</h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Students / Mentees</h2>
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">👩‍🎓</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Students / Mentees</h2>
           </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Posted Jobs</h2>
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">📂</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Add Free Resources</h2>
           </div>
 
-          {/* New container: Add Free Materials */}
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Add Free Materials</h2>
-            <button
-              className="px-4 py-2 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-            >
-              Upload Material
-            </button>
+          <div className="bg-white p-6 rounded-2xl shadow-md flex flex-col items-center justify-center h-40">
+            <span className="text-3xl mb-2">📢</span>
+            <h2 className="font-semibold text-gray-900 text-lg">Posted Jobs</h2>
           </div>
-
         </div>
       </div>
     </main>

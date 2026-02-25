@@ -2,76 +2,60 @@
 
 import { useState } from 'react';
 
-export default function SchoolDashboard() {
-  const [school, setSchool] = useState({
-    name: 'ABC International School',
-    profilePic: '/default-school.png',
-    profileCompletion: 65,
-  });
+const schoolModules = [
+  { id: 'products', name: 'Products', description: 'Manage and access school products', icon: '📦' },
+  { id: 'students', name: 'Students', description: 'Manage your students', icon: '👨‍🎓' },
+  { id: 'teachers', name: 'Teachers', description: 'Manage your teachers', icon: '👩‍🏫' },
+  { id: 'post-jobs', name: 'Post Jobs', description: 'Post teaching opportunities', icon: '📢' },
+  { id: 'free-resources', name: 'Free Resources', description: 'Add or view free educational materials', icon: '📚' },
+  { id: 'analytics', name: 'Analytics', description: 'View school performance metrics', icon: '📊' },
+];
 
-  const amberGradient = 'from-[#F59E0B] to-[#DC2626]';
+export default function SchoolDashboardPage() {
+  const [profileProgress, setProfileProgress] = useState(70); // Example progress
 
   return (
-    <main className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8 flex-col sm:flex-row sm:items-center sm:space-x-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-0">
-            School Dashboard
-          </h1>
-          <div className="flex items-center space-x-4">
-            <div className="flex flex-col items-end">
-              <span className="font-semibold text-gray-700">{school.name}</span>
-              <div className="w-40 bg-gray-200 rounded-full h-2 mt-1">
-                <div
-                  className={`h-2 rounded-full bg-gradient-to-r ${amberGradient}`}
-                  style={{ width: `${school.profileCompletion}%` }}
-                ></div>
-              </div>
-            </div>
-            <img
-              src={school.profilePic}
-              alt="School Profile"
-              className="w-14 h-14 rounded-full object-cover border-2 border-[#F59E0B]"
-            />
+    <main className="min-h-screen bg-gray-50 p-6 sm:p-12">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">School Dashboard</h1>
+        <div className="flex items-center space-x-4">
+          <div className="text-right">
+            <p className="text-gray-700 font-semibold">School Name</p>
+            <p className="text-gray-500 text-sm">Admin</p>
+          </div>
+          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#F59E0B]">
+            <img src="/vercel.svg" alt="Profile" className="w-full h-full object-cover" />
           </div>
         </div>
+      </div>
 
-        {/* 2x3 Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Profile Progress */}
+      <div className="mb-12">
+        <p className="text-gray-700 font-medium mb-2">Profile Completion</p>
+        <div className="w-full bg-[#FEF3C7] rounded-full h-4">
+          <div
+            className="h-4 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#DC2626]"
+            style={{ width: `${profileProgress}%` }}
+          />
+        </div>
+      </div>
 
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Manage Products</h2>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Manage Students</h2>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Manage Teachers</h2>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">Post Jobs</h2>
-          </div>
-
-          {/* New container: Add Free Materials */}
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Add Free Materials</h2>
-            <button
-              className="px-4 py-2 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white rounded-xl font-semibold hover:shadow-lg transition-all"
-            >
-              Upload Material
+      {/* Dashboard Modules */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {schoolModules.map((module) => (
+          <div
+            key={module.id}
+            className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all flex flex-col"
+          >
+            <div className="text-4xl mb-4">{module.icon}</div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{module.name}</h3>
+            <p className="text-gray-600 flex-1">{module.description}</p>
+            <button className="mt-4 px-4 py-2 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white font-semibold rounded-xl hover:shadow-md transition-all">
+              Open
             </button>
           </div>
-
-          <div className="bg-white rounded-2xl shadow border border-gray-100 p-6 flex flex-col justify-center items-center">
-            <h2 className="text-xl font-bold text-gray-900">View Modules</h2>
-          </div>
-
-        </div>
+        ))}
       </div>
     </main>
   );
