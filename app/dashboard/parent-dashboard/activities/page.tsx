@@ -2,10 +2,10 @@
 
 export default function ParentActivitiesPage() {
   return (
-    <main className=min-h-screen bg-gray-50 p-6>
-      <div className=max-w-7xl mx-auto>
-        <h1 className=text-2xl font-bold text-gray-900 mb-4>Activities</h1>
-        <p className=text-gray-600>Parent activities page - Coming soon</p>
+    <main className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Activities</h1>
+        <p className="text-gray-600">Parent activities page - Coming soon</p>
       </div>
     </main>
   );
