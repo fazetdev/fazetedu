@@ -1,14 +1,34 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 
+interface Student {
+  id: number;
+  name: string;
+  class: string;
+}
+
 export function useStudents() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<Student[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    // TODO: Fetch from database
-    setStudents([
-      { id: 1, name: 'John Doe', class: 'Grade 3' },
-      { id: 2, name: 'Jane Smith', class: 'Grade 5' },
-    ]);
+    async function fetchStudents() {
+      try {
+        setLoading(true);
+        // TODO: Connect to Supabase
+        // For now, return empty array
+        setStudents([]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch students');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStudents();
   }, []);
-  return { students, setStudents };
+
+  return { students, loading, error };
 }
