@@ -1,76 +1,134 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { auth } from '@/app/utils/auth';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setError('');
+    setLoading(true);
 
-    // Placeholder for Supabase auth
-    setTimeout(() => {
-      setIsLoading(false);
-      alert('Login functionality coming soon!');
-    }, 1000);
+    try {
+      const { user } = auth.login(email);
+      
+      // Get the correct dashboard URL based on role
+      let dashboardUrl = '/';
+      
+      if (user.role === 'admin') {
+        dashboardUrl = '/admin';
+      } else if (user.role === 'school') {
+        // School users go to their domain dashboard
+        dashboardUrl = `/${user.schoolDomain}/dashboard`;
+      } else if (user.role === 'teacher') {
+        dashboardUrl = '/dashboard/teacher-dashboard';
+      } else if (user.role === 'parent') {
+        dashboardUrl = '/dashboard/parent-dashboard';
+      }
+      
+      console.log('Redirecting to:', dashboardUrl); // For debugging
+      router.push(dashboardUrl);
+      
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Demo accounts for testing
+  const demoLogin = (role: string) => {
+    if (role === 'admin') {
+      setEmail('admin@fazetedu.ng');
+    } else if (role === 'school') {
+      setEmail('admin@sunset.edu.ng');
+    } else if (role === 'teacher') {
+      setEmail('teacher@school.ng');
+    }
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">Login</h1>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
+          <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
+        </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
+          <p className="text-xs text-blue-600 font-medium mb-2">⚡ Demo Accounts (Click to fill)</p>
+          <div className="flex flex-wrap gap-2">
+            <button 
+              onClick={() => demoLogin('admin')}
+              className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
+            >
+              Admin
+            </button>
+            <button 
+              onClick={() => demoLogin('school')}
+              className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
+            >
+              School
+            </button>
+            <button 
+              onClick={() => demoLogin('teacher')}
+              className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
+            >
+              Teacher
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email Address
             </label>
             <input
-              id="email"
               type="email"
-              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
+              className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              placeholder="you@school.ng"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-600 focus:border-green-600 outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className={`w-full py-3 rounded-xl text-white font-semibold transition-colors ${
-              isLoading ? 'bg-green-400' : 'bg-green-600 hover:bg-green-700'
+            disabled={loading}
+            className={`w-full bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all ${
+              loading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
-            disabled={isLoading}
           >
-            {isLoading ? 'Logging in...' : 'Login'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <p className="mt-6 text-center text-gray-600 text-sm">
-          Don’t have an account?{' '}
-          <Link href="/auth/register" className="text-green-600 font-semibold hover:underline">
-            Register
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Don't have an account?{' '}
+          <Link href="/auth/register" className="text-[#F59E0B] hover:underline">
+            Register here
           </Link>
         </p>
+
+        <p className="text-xs text-gray-400 text-center mt-4">
+          📝 MVP Note: No password required for testing. Just enter email.
+        </p>
       </div>
-    </main>
+    </div>
   );
 }
