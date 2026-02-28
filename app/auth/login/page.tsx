@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/app/utils/auth';
@@ -10,6 +10,12 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [registeredSchools, setRegisteredSchools] = useState<any[]>([]);
+
+  useEffect(() => {
+    const schools = JSON.parse(localStorage.getItem('schools') || '[]');
+    setRegisteredSchools(schools);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,39 +24,39 @@ export default function LoginPage() {
 
     try {
       const { user } = auth.login(email);
-      
-      // Get the correct dashboard URL based on role
-      let dashboardUrl = '/';
-      
-      if (user.role === 'admin') {
-        dashboardUrl = '/admin';
-      } else if (user.role === 'school') {
-        // School users go to their domain dashboard
-        dashboardUrl = `/${user.schoolDomain}/dashboard`;
-      } else if (user.role === 'teacher') {
-        dashboardUrl = '/dashboard/teacher-dashboard';
-      } else if (user.role === 'parent') {
-        dashboardUrl = '/dashboard/parent-dashboard';
+
+      if (!user) {
+        setError('User not found. Please register first.');
+        setLoading(false);
+        return;
       }
-      
-      console.log('Redirecting to:', dashboardUrl); // For debugging
+
+      const dashboardUrl = auth.getDashboardUrl(user);
+      console.log('Redirecting to:', dashboardUrl);
       router.push(dashboardUrl);
-      
+
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Demo accounts for testing
   const demoLogin = (role: string) => {
     if (role === 'admin') {
       setEmail('admin@fazetedu.ng');
     } else if (role === 'school') {
-      setEmail('admin@sunset.edu.ng');
+      const schools = JSON.parse(localStorage.getItem('schools') || '[]');
+      if (schools.length > 0) {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const schoolUser = users.find((u: any) => u.schoolId === schools[0].id);
+        setEmail(schoolUser?.email || '');
+      }
     } else if (role === 'teacher') {
-      setEmail('teacher@school.ng');
+      const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+      if (teachers.length > 0) {
+        setEmail(teachers[0].email);
+      }
     }
   };
 
@@ -62,22 +68,55 @@ export default function LoginPage() {
           <p className="text-sm text-gray-500 mt-1">Sign in to your account</p>
         </div>
 
-        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
-          <p className="text-xs text-blue-600 font-medium mb-2">⚡ Demo Accounts (Click to fill)</p>
+        {/* Admin Quick Access - Only shown in development */}
+        <div className="mb-6 p-4 bg-purple-50 rounded-xl border border-purple-100">
+          <p className="text-xs text-purple-600 font-medium mb-2">👑 Admin Access</p>
           <div className="flex flex-wrap gap-2">
             <button 
+              type="button"
+              onClick={() => demoLogin('admin')}
+              className="text-xs px-3 py-1 bg-white rounded-full text-purple-600 hover:bg-purple-100"
+            >
+              Login as Admin
+            </button>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">
+            Email: admin@fazetedu.ng
+          </p>
+        </div>
+
+        {registeredSchools.length > 0 && (
+          <div className="mb-6 p-4 bg-green-50 rounded-xl border border-green-100">
+            <p className="text-xs text-green-600 font-medium mb-2">✅ Registered Schools:</p>
+            <div className="space-y-1 max-h-24 overflow-y-auto">
+              {registeredSchools.map((school) => (
+                <div key={school.id} className="text-xs text-gray-600">
+                  • {school.name}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100">
+          <p className="text-xs text-blue-600 font-medium mb-2">⚡ Quick Login</p>
+          <div className="flex flex-wrap gap-2">
+            <button 
+              type="button"
               onClick={() => demoLogin('admin')}
               className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
             >
               Admin
             </button>
             <button 
+              type="button"
               onClick={() => demoLogin('school')}
               className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
             >
               School
             </button>
             <button 
+              type="button"
               onClick={() => demoLogin('teacher')}
               className="text-xs px-3 py-1 bg-white rounded-full text-blue-600 hover:bg-blue-100"
             >
@@ -123,10 +162,6 @@ export default function LoginPage() {
           <Link href="/auth/register" className="text-[#F59E0B] hover:underline">
             Register here
           </Link>
-        </p>
-
-        <p className="text-xs text-gray-400 text-center mt-4">
-          📝 MVP Note: No password required for testing. Just enter email.
         </p>
       </div>
     </div>

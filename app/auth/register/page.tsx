@@ -26,7 +26,18 @@ export default function RegisterPage() {
     setSuccess('');
 
     try {
+      // Check if email already exists
+      if (auth.emailExists(formData.email)) {
+        setError('Email already registered. Please use a different email or login.');
+        return;
+      }
+
       if (userType === 'school') {
+        if (!formData.schoolName) {
+          setError('School name is required');
+          return;
+        }
+
         const { school, user, redirectUrl } = auth.registerSchool({
           schoolName: formData.schoolName,
           adminName: formData.name,
@@ -35,13 +46,17 @@ export default function RegisterPage() {
         });
 
         setSuccess(`✅ School registered! Redirecting to your dashboard...`);
-        
-        // Use the redirectUrl from auth
+
         setTimeout(() => {
           router.push(redirectUrl);
         }, 1500);
-        
+
       } else if (userType === 'teacher') {
+        if (!formData.subject) {
+          setError('Subject specialization is required');
+          return;
+        }
+
         const { teacher, user } = auth.registerTeacher({
           name: formData.name,
           email: formData.email,
@@ -50,12 +65,17 @@ export default function RegisterPage() {
         });
 
         setSuccess(`✅ Teacher registered! Redirecting...`);
-        
+
         setTimeout(() => {
           router.push('/dashboard/teacher-dashboard');
         }, 1500);
 
       } else if (userType === 'parent') {
+        if (!formData.childName) {
+          setError("Child's name is required");
+          return;
+        }
+
         const { parent, user } = auth.registerParent({
           name: formData.name,
           email: formData.email,
@@ -64,32 +84,32 @@ export default function RegisterPage() {
         });
 
         setSuccess(`✅ Parent registered! Redirecting...`);
-        
+
         setTimeout(() => {
           router.push('/dashboard/parent-dashboard');
         }, 1500);
       }
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Registration failed. Please try again.');
     }
   };
 
   const generateDomain = (schoolName: string) => {
     return schoolName
       .toLowerCase()
-      .replace(/\s+/g, '')
-      .replace(/[^a-z0-9]/g, '') + '.fazetedu.ng';
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
   };
 
   const domainPreview = userType === 'school' && formData.schoolName
     ? generateDomain(formData.schoolName)
-    : 'yourschool.fazetedu.ng';
+    : 'your-school';
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl p-8 shadow-lg">
         <h1 className="text-2xl font-bold text-center mb-6">Create Account</h1>
-        
+
         {success && (
           <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4">
             <p className="text-sm text-green-700">{success}</p>
@@ -101,9 +121,10 @@ export default function RegisterPage() {
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
-        
+
         <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
           <button
+            type="button"
             onClick={() => setUserType('school')}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
               userType === 'school' ? 'bg-white shadow-md' : ''
@@ -112,6 +133,7 @@ export default function RegisterPage() {
             🏫 School
           </button>
           <button
+            type="button"
             onClick={() => setUserType('teacher')}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
               userType === 'teacher' ? 'bg-white shadow-md' : ''
@@ -120,6 +142,7 @@ export default function RegisterPage() {
             👨‍🏫 Teacher
           </button>
           <button
+            type="button"
             onClick={() => setUserType('parent')}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
               userType === 'parent' ? 'bg-white shadow-md' : ''
@@ -167,10 +190,10 @@ export default function RegisterPage() {
                 className="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
                 required
               />
-              
+
               <div className="bg-gray-50 rounded-xl p-3 border border-gray-200">
                 <p className="text-xs text-gray-500 mb-1">Your school portal:</p>
-                <p className="text-sm font-mono text-[#F59E0B]">{domainPreview}</p>
+                <p className="text-sm font-mono text-[#F59E0B]">{domainPreview}.fazetedu.ng</p>
               </div>
             </>
           )}
@@ -198,11 +221,10 @@ export default function RegisterPage() {
               />
               <input
                 type="text"
-                placeholder="Child's Class"
+                placeholder="Child's Class (Optional)"
                 value={formData.childClass}
                 onChange={(e) => setFormData({...formData, childClass: e.target.value})}
                 className="w-full border rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
-                required
               />
             </>
           )}
@@ -211,7 +233,7 @@ export default function RegisterPage() {
             type="submit"
             className="w-full bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all"
           >
-            Register
+            Register as {userType === 'school' ? 'School' : userType === 'teacher' ? 'Teacher' : 'Parent'}
           </button>
         </form>
 

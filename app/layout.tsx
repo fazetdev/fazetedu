@@ -1,24 +1,35 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import ClientInit from "./components/ClientInit";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: 'Fazet Edutech - Smart Solutions for Nigerian Schools',
-  description: 'Streamline school operations, access rich learning resources, and pay only for what you use.',
+  title: "Faztedu",
+  description: "Education Platform",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased bg-white">
-        <Navbar />
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ClientInit />
         {children}
-        <Footer />
       </body>
     </html>
   );
