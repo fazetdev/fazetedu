@@ -1,12 +1,12 @@
 'use client';
 
 import { useSchool } from '@/app/hooks/useSchool';
-import Link from 'next/link';
 import { useState } from 'react';
 
 export default function MySchoolPage() {
   const { school, loading, error, domain } = useSchool();
   const [isEditing, setIsEditing] = useState(false);
+  const [editedSchool, setEditedSchool] = useState(null);
 
   if (loading) {
     return (
@@ -27,6 +27,46 @@ export default function MySchoolPage() {
       </div>
     );
   }
+
+  // Initialize edited school with current school data when editing starts
+  if (isEditing && !editedSchool) {
+    setEditedSchool({
+      name: school.name || '',
+      email: school.email || '',
+      phone: school.phone || '',
+      address: school.address || '',
+      motto: school.motto || ''
+    });
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedSchool(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSave = () => {
+    console.log('Saving school data:', editedSchool);
+    setIsEditing(false);
+    setEditedSchool(null);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedSchool(null);
+  };
+
+  // Format date safely
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return 'Recently';
+    try {
+      return new Date(dateString).toLocaleDateString();
+    } catch {
+      return 'Recently';
+    }
+  };
 
   // Mock stats - these will come from database
   const stats = {
@@ -57,28 +97,28 @@ export default function MySchoolPage() {
         <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-8">
           <div className="flex items-start space-x-4">
             <div className="w-20 h-20 bg-gradient-to-br from-[#F59E0B] to-[#DC2626] rounded-xl flex items-center justify-center text-white text-2xl font-bold">
-              {school.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+              {school.name ? school.name.split(' ').map(n => n[0]).join('').slice(0, 2) : 'S'}
             </div>
-            
+
             <div className="flex-1">
               <h2 className="text-xl font-bold text-gray-900 mb-4">{school.name}</h2>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-500">Email</p>
-                  <p className="text-sm font-medium">{school.email}</p>
+                  <p className="text-sm font-medium">{school.email || 'Not provided'}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Phone</p>
-                  <p className="text-sm font-medium">{school.phone}</p>
+                  <p className="text-sm font-medium">{school.phone || 'Not provided'}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Domain</p>
-                  <p className="text-sm font-medium text-[#F59E0B]">{school.domain}</p>
+                  <p className="text-sm font-medium text-[#F59E0B]">{school.domain || domain}</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">Joined</p>
-                  <p className="text-sm font-medium">{new Date(school.joinedAt).toLocaleDateString()}</p>
+                  <p className="text-sm font-medium">{formatDate(school.joinedAt)}</p>
                 </div>
               </div>
             </div>
