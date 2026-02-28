@@ -3,10 +3,18 @@
 import { useSchool } from '@/app/hooks/useSchool';
 import { useState } from 'react';
 
+interface EditedSchool {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  motto: string;
+}
+
 export default function MySchoolPage() {
   const { school, loading, error, domain } = useSchool();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedSchool, setEditedSchool] = useState(null);
+  const [editedSchool, setEditedSchool] = useState<EditedSchool | null>(null);
 
   if (loading) {
     return (
@@ -39,10 +47,10 @@ export default function MySchoolPage() {
     });
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEditedSchool(prev => ({
-      ...prev,
+      ...prev!,
       [name]: value
     }));
   };
