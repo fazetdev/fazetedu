@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ClientInit from "./components/ClientInit";
+import Breadcrumbs from "./components/Breadcrumbs"; // Add this
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClientInit />
+        <Breadcrumbs /> {/* This will show on EVERY page */}
         {children}
       </body>
     </html>
