@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 import StudentList from './components/StudentList';
 
 export default function StudentsPage() {

@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 
 import React from 'react';
 
@@ -6,6 +7,7 @@ export default function TeacherDashboardPage() {
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
+        <PageHeader title="Teacher" showBack={true} />
 
         {/* Profile Pic & Progress */}
         <div className="flex justify-end mb-8">

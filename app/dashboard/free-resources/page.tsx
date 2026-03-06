@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 import ResourceList from './components/ResourceList';
 
 export default function FreeResourcesPage() {

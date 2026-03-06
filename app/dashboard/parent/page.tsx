@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 
 import React from 'react';
 
@@ -6,6 +7,7 @@ export default function ParentDashboardPage() {
   return (
     <main className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
+        <PageHeader title="Parent" showBack={true} />
         {/* Profile Section */}
         <div className="flex justify-end mb-8">
           <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">

@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 import MetricsSummary from './components/MetricsSummary';
 
 export default function AnalyticsPage() {

@@ -1,4 +1,5 @@
-'use client';
+'use client'
+import PageHeader from "@/app/components/PageHeader";
 
 import Link from 'next/link';
 import { useState } from 'react';
@@ -11,6 +12,7 @@ export default function TeacherDashboard() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <PageHeader title="Teacher Dashboard" showBack={true} />
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
@@ -38,6 +40,7 @@ export default function TeacherDashboard() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <PageHeader title="Teacher Dashboard" showBack={true} />
         {/* Profile Completion Banner - Only show if incomplete */}
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
