@@ -4,7 +4,6 @@ import { useSchool } from '@/app/hooks/useSchool';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
 
 // Types for real data
 interface DashboardStats {
@@ -41,8 +40,7 @@ interface UpcomingEvent {
 export default function SchoolDashboardPage() {
   const { school, loading: schoolLoading, error, domain } = useSchool();
   const router = useRouter();
-  const supabase = createClient();
-  
+
   // Real data states
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [activities, setActivities] = useState<RecentActivity[]>([]);
@@ -50,67 +48,77 @@ export default function SchoolDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month' | 'term'>('week');
 
-  // Fetch real dashboard data
+  // Load data from localStorage
   useEffect(() => {
-    async function fetchDashboardData() {
-      if (!school?.id) return;
-      
-      setIsLoading(true);
-      try {
-        // Parallel data fetching for performance
-        const [
-          studentsRes,
-          teachersRes,
-          feesRes,
-          classesRes,
-          activitiesRes,
-          eventsRes
-        ] = await Promise.all([
-          supabase.from('students').select('count', { count: 'exact', head: true }).eq('school_id', school.id),
-          supabase.from('teachers').select('count', { count: 'exact', head: true }).eq('school_id', school.id),
-          supabase.from('fees').select('amount, status').eq('school_id', school.id),
-          supabase.from('classes').select('count', { count: 'exact', head: true }).eq('school_id', school.id),
-          supabase.from('activities').select('*').eq('school_id', school.id).order('created_at', { ascending: false }).limit(10),
-          supabase.from('events').select('*').eq('school_id', school.id).gte('date', new Date().toISOString()).order('date').limit(5)
-        ]);
+    if (!school?.id) return;
 
-        // Calculate real stats
-        const totalStudents = studentsRes.count || 0;
-        const totalTeachers = teachersRes.count || 0;
-        const activeClasses = classesRes.count || 0;
-        
-        // Calculate fee statistics
-        const fees = feesRes.data || [];
-        const monthlyRevenue = fees
-          .filter(f => f.status === 'paid')
-          .reduce((sum, f) => sum + (f.amount || 0), 0);
-        const pendingFees = fees
-          .filter(f => f.status === 'pending')
-          .reduce((sum, f) => sum + (f.amount || 0), 0);
+    setIsLoading(true);
+    try {
+      // Load real data from localStorage with school-specific keys
+      const statsKey = `dashboard_stats_${school.id}`;
+      const activitiesKey = `dashboard_activities_${school.id}`;
+      const eventsKey = `dashboard_events_${school.id}`;
 
+      const savedStats = localStorage.getItem(statsKey);
+      const savedActivities = localStorage.getItem(activitiesKey);
+      const savedEvents = localStorage.getItem(eventsKey);
+
+      if (savedStats) {
+        setStats(JSON.parse(savedStats));
+      } else {
+        // Initialize with empty stats if none exist
         setStats({
-          totalStudents,
-          totalTeachers,
-          monthlyRevenue,
-          pendingFees,
-          activeClasses,
-          resourceCount: 0, // Fetch from resources table
-          attendanceRate: 92, // Calculate from attendance table
-          newThisWeek: 12 // Calculate from recent enrollments
+          totalStudents: 0,
+          totalTeachers: 0,
+          monthlyRevenue: 0,
+          pendingFees: 0,
+          activeClasses: 0,
+          resourceCount: 0,
+          attendanceRate: 0,
+          newThisWeek: 0
         });
-
-        setActivities(activitiesRes.data || []);
-        setEvents(eventsRes.data || []);
-        
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setIsLoading(false);
       }
-    }
 
-    fetchDashboardData();
+      if (savedActivities) {
+        setActivities(JSON.parse(savedActivities));
+      } else {
+        setActivities([]);
+      }
+
+      if (savedEvents) {
+        setEvents(JSON.parse(savedEvents));
+      } else {
+        setEvents([]);
+      }
+
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [school?.id]);
+
+  // Save data to localStorage whenever it changes
+  useEffect(() => {
+    if (!school?.id || !stats) return;
+    
+    const statsKey = `dashboard_stats_${school.id}`;
+    localStorage.setItem(statsKey, JSON.stringify(stats));
+  }, [stats, school?.id]);
+
+  useEffect(() => {
+    if (!school?.id) return;
+    
+    const activitiesKey = `dashboard_activities_${school.id}`;
+    localStorage.setItem(activitiesKey, JSON.stringify(activities));
+  }, [activities, school?.id]);
+
+  useEffect(() => {
+    if (!school?.id) return;
+    
+    const eventsKey = `dashboard_events_${school.id}`;
+    localStorage.setItem(eventsKey, JSON.stringify(events));
+  }, [events, school?.id]);
 
   if (schoolLoading || isLoading) {
     return (
@@ -153,9 +161,9 @@ export default function SchoolDashboardPage() {
     { id: 'students', name: 'Students', icon: '👥', count: stats?.totalStudents || 0, link: `/${domain}/students`, color: 'from-blue-500 to-cyan-500', description: 'Manage enrollments' },
     { id: 'teachers', name: 'Teachers', icon: '👨‍🏫', count: stats?.totalTeachers || 0, link: `/${domain}/teachers`, color: 'from-green-500 to-emerald-500', description: 'Staff management' },
     { id: 'classes', name: 'Classes', icon: '📚', count: stats?.activeClasses || 0, link: `/${domain}/classes`, color: 'from-purple-500 to-pink-500', description: 'Active classes' },
-    { id: 'fees', name: 'Fees', icon: '💰', amount: `₦${(stats?.pendingFees || 0).toLocaleString()}`, link: `/${domain}/fees`, color: 'from-yellow-500 to-orange-500', description: 'Pending payments' },
-    { id: 'attendance', name: 'Attendance', icon: '📊', rate: `${stats?.attendanceRate || 0}%`, link: `/${domain}/attendance`, color: 'from-indigo-500 to-purple-500', description: 'Today\'s rate' },
-    { id: 'reports', name: 'Reports', icon: '📈', count: 12, link: `/${domain}/reports`, color: 'from-red-500 to-rose-500', description: 'Generate reports' },
+    { id: 'fees', name: 'Fees', icon: '💰', amount: stats?.pendingFees ? `₦${stats.pendingFees.toLocaleString()}` : '₦0', link: `/${domain}/fees`, color: 'from-yellow-500 to-orange-500', description: 'Pending payments' },
+    { id: 'attendance', name: 'Attendance', icon: '📊', rate: stats?.attendanceRate ? `${stats.attendanceRate}%` : '0%', link: `/${domain}/attendance`, color: 'from-indigo-500 to-purple-500', description: 'Today\'s rate' },
+    { id: 'reports', name: 'Reports', icon: '📈', count: 0, link: `/${domain}/reports`, color: 'from-red-500 to-rose-500', description: 'Generate reports' },
   ];
 
   return (
@@ -189,13 +197,13 @@ export default function SchoolDashboardPage() {
                 <option value="month">This Month</option>
                 <option value="term">This Term</option>
               </select>
-              
+
               <button className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
                 <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </button>
-              
+
               <button className="px-4 py-2 bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -211,10 +219,10 @@ export default function SchoolDashboardPage() {
         {/* Key Stats Cards - Real Data */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Total Students', value: stats?.totalStudents || 0, icon: '👥', change: '+12 this week', color: 'blue' },
-            { label: 'Teachers', value: stats?.totalTeachers || 0, icon: '👨‍🏫', change: 'Full time', color: 'green' },
-            { label: 'Monthly Revenue', value: `₦${(stats?.monthlyRevenue || 0).toLocaleString()}`, icon: '💰', change: '+18% vs last term', color: 'yellow' },
-            { label: 'Attendance', value: `${stats?.attendanceRate || 0}%`, icon: '📊', change: 'Above average', color: 'purple' },
+            { label: 'Total Students', value: stats?.totalStudents || 0, icon: '👥', change: stats?.newThisWeek ? `+${stats.newThisWeek} this week` : 'No data', color: 'blue' },
+            { label: 'Teachers', value: stats?.totalTeachers || 0, icon: '👨‍🏫', change: 'Active staff', color: 'green' },
+            { label: 'Monthly Revenue', value: stats?.monthlyRevenue ? `₦${stats.monthlyRevenue.toLocaleString()}` : '₦0', icon: '💰', change: stats?.monthlyRevenue ? 'This month' : 'No data', color: 'yellow' },
+            { label: 'Attendance', value: stats?.attendanceRate ? `${stats.attendanceRate}%` : '0%', icon: '📊', change: stats?.attendanceRate ? 'Average' : 'No data', color: 'purple' },
           ].map((stat, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all">
               <div className="flex items-center justify-between mb-4">
@@ -267,7 +275,7 @@ export default function SchoolDashboardPage() {
                   View All →
                 </Link>
               </div>
-              
+
               <div className="space-y-4">
                 {activities.length > 0 ? activities.map((activity) => (
                   <div key={activity.id} className="flex items-start gap-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
@@ -303,7 +311,7 @@ export default function SchoolDashboardPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Upcoming Events</h2>
-              
+
               <div className="space-y-4">
                 {events.length > 0 ? events.map((event) => (
                   <div key={event.id} className="relative pl-8 pb-4 border-l-2 border-gray-200 last:pb-0">
@@ -312,7 +320,7 @@ export default function SchoolDashboardPage() {
                       event.type === 'meeting' ? 'bg-blue-500' :
                       event.type === 'holiday' ? 'bg-green-500' : 'bg-yellow-500'
                     }`}></div>
-                    
+
                     <p className="text-sm font-medium text-gray-900">{event.title}</p>
                     <p className="text-xs text-gray-500 mt-1">{event.date} at {event.time}</p>
                     {event.participants && (
@@ -324,7 +332,7 @@ export default function SchoolDashboardPage() {
                     <span className="text-3xl block mb-2">📅</span>
                     <p className="text-sm">No upcoming events</p>
                   </div>
-                ))}
+                )}
               </div>
 
               {/* Quick Stats Mini Cards */}
