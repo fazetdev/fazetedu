@@ -1,108 +1,55 @@
-import { Resource, ResourceFilters, Purchase } from './types';
+import { Resource } from './types';
 
-// TODO: Replace with actual Supabase calls
+const STORAGE_KEY = 'edumarket_resources';
+
+// Helper function to get resources
+const getResources = (): Resource[] => {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+};
+
+// Helper function to save resources
+const saveResources = (resources: Resource[]) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+};
+
 export const resourceService = {
-  // Get resources with filtering and pagination
-  async getResources(filters: ResourceFilters, page: number = 1, limit: number = 12) {
-    // const supabase = createClientComponentClient();
-    // let query = supabase.from('resources').select('*', { count: 'exact' });
-    
-    // if (filters.category && filters.category !== 'all') {
-    //   query = query.eq('category', filters.category);
-    // }
-    
-    // if (filters.minPrice) {
-    //   query = query.gte('price', filters.minPrice);
-    // }
-    
-    // if (filters.maxPrice) {
-    //   query = query.lte('price', filters.maxPrice);
-    // }
-    
-    // const { data, error, count } = await query
-    //   .range((page - 1) * limit, page * limit - 1)
-    //   .order(getSortColumn(filters.sortBy), { ascending: getSortDirection(filters.sortBy) });
-    
-    // return { data, error, count, page, limit };
-    
-    // Mock implementation
-    return {
-      data: [],
-      error: null,
-      count: 0,
-      page,
-      limit
+  // Get all resources
+  getAll: (): Resource[] => {
+    return getResources();
+  },
+
+  // Add new resource
+  add: (resource: Omit<Resource, 'id' | 'createdAt'>): Resource => {
+    const resources = getResources();
+    const newResource = {
+      ...resource,
+      id: crypto.randomUUID(),
+      createdAt: new Date().toISOString()
     };
+    resources.push(newResource);
+    saveResources(resources);
+    return newResource;
   },
 
-  // Get single resource by ID
-  async getResourceById(id: string) {
-    // const { data, error } = await supabase
-    //   .from('resources')
-    //   .select('*, author:profiles(*)')
-    //   .eq('id', id)
-    //   .single();
-    
-    // return { data, error };
-    
-    return { data: null, error: null };
+  // Delete resource
+  delete: (id: string): void => {
+    const resources = getResources();
+    const filtered = resources.filter(r => r.id !== id);
+    saveResources(filtered);
   },
 
-  // Create new resource
-  async createResource(resource: Partial<Resource>, file: File) {
-    // 1. Upload file to Supabase Storage
-    // const fileExt = file.name.split('.').pop();
-    // const fileName = `${crypto.randomUUID()}.${fileExt}`;
-    // const { error: uploadError } = await supabase.storage
-    //   .from('resources')
-    //   .upload(fileName, file);
-    
-    // if (uploadError) throw uploadError;
-    
-    // 2. Get public URL
-    // const { data: { publicUrl } } = supabase.storage
-    //   .from('resources')
-    //   .getPublicUrl(fileName);
-    
-    // 3. Create database record
-    // const { data, error } = await supabase
-    //   .from('resources')
-    //   .insert({
-    //     ...resource,
-    //     file_url: publicUrl,
-    //     file_name: fileName
-    //   })
-    //   .select()
-    //   .single();
-    
-    // return { data, error };
-    
-    return { data: null, error: null };
+  // Get single resource
+  getById: (id: string): Resource | undefined => {
+    const resources = getResources();
+    return resources.find(r => r.id === id);
   },
 
-  // Purchase resource
-  async purchaseResource(resourceId: string, userId: string): Promise<Purchase> {
-    // 1. Create order in database
-    // 2. Process payment (Paystack)
-    // 3. Grant access to user
-    // 4. Increment download count
-    
-    return {
-      id: '',
-      resourceId,
-      buyerId: userId,
-      amount: 0,
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-      downloadUrl: ''
-    };
-  },
-
-  // Download resource (after purchase)
-  async getDownloadUrl(resourceId: string, userId: string) {
-    // Check if user has purchased
-    // Generate signed URL for secure download
-    
-    return '';
+  // Get resources by seller
+  getBySeller: (sellerId: string): Resource[] => {
+    const resources = getResources();
+    return resources.filter(r => r.sellerId === sellerId);
   }
 };

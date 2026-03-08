@@ -2,35 +2,24 @@ export interface Resource {
   id: string;
   title: string;
   description: string;
-  category: 'lesson' | 'worksheet' | 'exam' | 'curriculum' | 'other';
+  category: string;
   price: number;
-  author: {
-    id: string;
+  sellerId: string;
+  sellerName: string;
+  sellerEmail: string;
+  fileData: {
     name: string;
-    avatar?: string;
-    rating: number;
-    totalSales: number;
-  };
-  file: {
-    url: string;
-    type: 'pdf' | 'doc' | 'ppt' | 'excel' | 'image' | 'video' | 'other';
+    type: string;
     size: number;
     pages?: number;
-    duration?: number;
+    preview?: string[]; // base64 of first few pages
   };
-  preview?: {
-    image?: string;
-    pages?: string[];
-  };
-  stats: {
-    downloads: number;
-    views: number;
-    saves: number;
-    rating: number;
-    reviewCount: number;
-  };
-  tags: string[];
   createdAt: string;
-  updatedAt: string;
-  status: 'published' | 'draft' | 'archived';
+}
+
+export interface CartItem {
+  resourceId: string;
+  title: string;
+  price: number;
+  sellerName: string;
 }

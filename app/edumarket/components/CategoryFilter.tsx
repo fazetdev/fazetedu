@@ -1,37 +1,36 @@
 'use client';
 
-interface Category {
-  id: string;
-  name: string;
-  icon: string;
-}
-
 interface CategoryFilterProps {
-  categories: Category[];
   selectedCategory: string;
-  onSelectCategory: (categoryId: string) => void;
+  onCategoryChange: (category: string) => void;
 }
 
-export default function CategoryFilter({ categories, selectedCategory, onSelectCategory }: CategoryFilterProps) {
+const categories = [
+  { id: 'all', name: 'All', icon: '📚' },
+  { id: 'lesson', name: 'Lesson Notes', icon: '📝' },
+  { id: 'worksheet', name: 'Worksheets', icon: '📋' },
+  { id: 'exam', name: 'Exam Questions', icon: '📊' },
+  { id: 'curriculum', name: 'Curriculum', icon: '📖' },
+  { id: 'other', name: 'Other', icon: '📄' }
+];
+
+export default function CategoryFilter({ selectedCategory, onCategoryChange }: CategoryFilterProps) {
   return (
-    <div className="mb-12">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Browse Categories</h2>
-      <div className="flex flex-wrap gap-3">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => onSelectCategory(category.id)}
-            className={`flex items-center px-4 py-3 rounded-xl font-medium transition-all ${
-              selectedCategory === category.id
-                ? 'bg-gradient-to-r from-[#8B5CF6] to-[#DB2777] text-white shadow'
-                : 'bg-white border border-gray-200 text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            <span className="text-lg mr-2">{category.icon}</span>
-            <span>{category.name}</span>
-          </button>
-        ))}
-      </div>
+    <div className="flex gap-2 overflow-x-auto pb-2">
+      {categories.map(cat => (
+        <button
+          key={cat.id}
+          onClick={() => onCategoryChange(cat.id)}
+          className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all ${
+            selectedCategory === cat.id
+              ? 'bg-gradient-to-r from-[#F59E0B] to-[#DC2626] text-white shadow-md'
+              : 'bg-white text-gray-700 border border-gray-200 hover:border-[#F59E0B]'
+          }`}
+        >
+          <span className="mr-1">{cat.icon}</span>
+          {cat.name}
+        </button>
+      ))}
     </div>
   );
 }
