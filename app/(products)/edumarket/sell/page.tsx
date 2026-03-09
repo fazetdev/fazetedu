@@ -3,147 +3,113 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { resourceService } from '../services';
+import { Resource } from '../types';
 
-export default function SellPage() {
+export default function SellResourcePage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState<string[]>([]);
-  const [currentUser, setCurrentUser] = useState<any>(null);
-
-  // Get current user on mount
-  useState(() => {
-    const user = localStorage.getItem('currentUser');
-    if (user) setCurrentUser(JSON.parse(user));
-  });
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // For PDF files, we could extract first few pages
-    // For now, just show file info
-    if (file.type === 'application/pdf') {
-      // In a real app, you'd use PDF.js to extract preview
-      // For now, we'll just store the file name
-      console.log('PDF selected:', file.name);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get('file') as File;
-
-    // Get current user or use default
-    const user = currentUser || { 
-      id: crypto.randomUUID(), 
-      name: 'Anonymous Seller',
-      email: 'anonymous@example.com'
-    };
-
-    await resourceService.add({
-      title: formData.get('title') as string,
-      description: formData.get('description') as string,
-      category: formData.get('category') as string,
-      price: Number(formData.get('price')),
-      sellerId: user.id,
-      sellerName: user.name,
-      sellerEmail: user.email,
-      fileData: {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        pages: 1,
-        preview: [] // In real app, store preview images
-      }
-    });
-
-    router.push('/edumarket');
-  };
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('lesson-plan');
+  const [price, setPrice] = useState<number | ''>('');
+  const [fileData, setFileData] = useState<File | null>(null);
 
   const categories = [
     'lesson-plan', 'lesson-note', 'worksheet', 
     'past-question', 'textbook', 'scheme-of-work', 'other'
   ];
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFileData(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !description || !category || !price || !fileData) {
+      alert('Please fill in all fields and select a file');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const resource: Resource = {
+        id: Date.now().toString(),
+        title,
+        description,
+        category,
+        price: Number(price),
+        sellerName: 'You',
+        fileData: {
+          type: fileData.type,
+          preview: [reader.result as string]
+        }
+      };
+      resourceService.add(resource);
+      router.push('/edumarket');
+    };
+    reader.readAsDataURL(fileData);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-2xl mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-6">Sell Your Resource</h1>
-        
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Title *</label>
+      <div className="max-w-3xl mx-auto px-4">
+        <h1 className="text-2xl font-bold mb-6">Sell a Resource</h1>
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-sm space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Title</label>
             <input
-              name="title"
-              required
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#F59E0B]"
-              placeholder="e.g., SS1 Mathematics Lesson Notes"
+              type="text"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              className="w-full border rounded-lg p-2"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Description *</label>
+          <div>
+            <label className="block text-sm font-medium mb-1">Description</label>
             <textarea
-              name="description"
-              required
-              rows={4}
-              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#F59E0B]"
-              placeholder="Describe what's included in this resource..."
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              className="w-full border rounded-lg p-2"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Category *</label>
-              <select 
-                name="category" 
-                required 
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#F59E0B]"
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat.replace('-', ' ')}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">Price (₦) *</label>
-              <input
-                name="price"
-                type="number"
-                required
-                min="0"
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-[#F59E0B]"
-                placeholder="0"
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Category</label>
+            <select
+              value={category}
+              onChange={e => setCategory(e.target.value)}
+              className="w-full border rounded-lg p-2"
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat}>
+                  {cat.replace('-', ' ')}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">File *</label>
+          <div>
+            <label className="block text-sm font-medium mb-1">Price (₦)</label>
             <input
-              name="file"
-              type="file"
-              required
-              accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx"
-              onChange={handleFileChange}
-              className="w-full px-3 py-2 border rounded-lg"
+              type="number"
+              value={price}
+              onChange={e => setPrice(Number(e.target.value))}
+              className="w-full border rounded-lg p-2"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Supported: PDF, DOC, PPT, XLS (max 50MB)
-            </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">File</label>
+            <input type="file" accept="application/pdf,image/*" onChange={handleFileChange} />
           </div>
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-[#F59E0B] text-white rounded-lg font-medium hover:bg-[#DC2626] transition-colors disabled:opacity-50"
+            className="w-full py-2 bg-[#F59E0B] text-white rounded-lg mt-4"
           >
-            {loading ? 'Publishing...' : 'Publish Resource'}
+            Submit Resource
           </button>
         </form>
       </div>

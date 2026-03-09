@@ -14,15 +14,15 @@ export default function EduMarketPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [previewResource, setPreviewResource] = useState<Resource | null>(null);
 
-  // Load resources from localStorage
+  // Load resources
   useEffect(() => {
     const loaded = resourceService.getAll();
     setResources(loaded);
   }, []);
 
-  // Load cart
+  // Load cart from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('cart');
+    const saved = localStorage.getItem('edumarket_cart');
     if (saved) setCart(JSON.parse(saved));
   }, []);
 
@@ -34,13 +34,13 @@ export default function EduMarketPage() {
       sellerName: resource.sellerName
     }];
     setCart(newCart);
-    localStorage.setItem('cart', JSON.stringify(newCart));
+    localStorage.setItem('edumarket_cart', JSON.stringify(newCart));
   };
 
   const removeFromCart = (resourceId: string) => {
     const newCart = cart.filter(item => item.resourceId !== resourceId);
     setCart(newCart);
-    localStorage.setItem('cart', JSON.stringify(newCart));
+    localStorage.setItem('edumarket_cart', JSON.stringify(newCart));
   };
 
   const deleteResource = (id: string, e: React.MouseEvent) => {
@@ -75,33 +75,28 @@ export default function EduMarketPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/edumarket" className="text-xl font-bold">EduMarket</Link>
-            
-            <div className="flex items-center gap-3">
-              <button onClick={() => setShowCart(!showCart)} className="relative p-2">
-                🛒
-                {cart.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#F59E0B] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cart.length}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() => router.push('/edumarket/sell')}
-                className="px-4 py-2 bg-[#F59E0B] text-white rounded-lg text-sm"
-              >
-                + Sell Resource
-              </button>
-            </div>
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+          <Link href="/edumarket" className="text-xl font-bold">EduMarket</Link>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setShowCart(!showCart)} className="relative p-2">
+              🛒
+              {cart.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#F59E0B] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cart.length}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => router.push('/edumarket/sell')}
+              className="px-4 py-2 bg-[#F59E0B] text-white rounded-lg text-sm"
+            >
+              + Sell Resource
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Cart Sidebar */}
       {showCart && (
         <div className="fixed inset-0 z-40">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowCart(false)} />
@@ -142,9 +137,7 @@ export default function EduMarketPage() {
         </div>
       )}
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Categories */}
         <div className="flex gap-2 overflow-x-auto pb-4 mb-6">
           {categories.map(cat => (
             <button
@@ -161,7 +154,6 @@ export default function EduMarketPage() {
           ))}
         </div>
 
-        {/* Resources Grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📚</div>
@@ -178,12 +170,11 @@ export default function EduMarketPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map(resource => (
               <div key={resource.id} className="bg-white rounded-xl shadow-sm border hover:shadow-md transition-all">
-                {/* Preview Section */}
                 <div 
                   className="relative aspect-[4/3] bg-gray-100 rounded-t-xl overflow-hidden cursor-pointer"
                   onClick={() => setPreviewResource(resource)}
                 >
-                  {resource.fileData?.preview && resource.fileData.preview.length > 0 ? (
+                  {resource.fileData?.preview?.[0] ? (
                     <img 
                       src={resource.fileData.preview[0]} 
                       alt={resource.title}
@@ -198,13 +189,10 @@ export default function EduMarketPage() {
                     {resource.fileData?.type?.split('/')[1] || 'PDF'}
                   </div>
                 </div>
-
-                {/* Details */}
                 <div className="p-4">
                   <h3 className="font-semibold mb-1 line-clamp-2">{resource.title}</h3>
                   <p className="text-sm text-gray-500 mb-2">{resource.sellerName}</p>
                   <p className="text-sm text-gray-600 mb-3 line-clamp-2">{resource.description}</p>
-                  
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-bold">₦{resource.price}</span>
                     <div className="flex gap-2">
@@ -229,7 +217,6 @@ export default function EduMarketPage() {
         )}
       </div>
 
-      {/* Preview Modal */}
       {previewResource && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setPreviewResource(null)} />
@@ -239,30 +226,18 @@ export default function EduMarketPage() {
               <button onClick={() => setPreviewResource(null)} className="text-gray-500">✕</button>
             </div>
             <div className="p-6">
-              <div className="mb-6">
-                <p className="text-gray-700 mb-4">{previewResource.description}</p>
-                <div className="flex gap-4 text-sm text-gray-500">
-                  <span>Category: {previewResource.category}</span>
-                  <span>Price: ₦{previewResource.price}</span>
-                  <span>Seller: {previewResource.sellerName}</span>
-                </div>
+              <p className="text-gray-700 mb-4">{previewResource.description}</p>
+              <div className="flex gap-4 text-sm text-gray-500 mb-4">
+                <span>Category: {previewResource.category}</span>
+                <span>Price: ₦{previewResource.price}</span>
+                <span>Seller: {previewResource.sellerName}</span>
               </div>
-              
-              {/* Preview Pages */}
-              {previewResource.fileData?.preview && previewResource.fileData.preview.length > 0 ? (
-                <div className="space-y-4">
-                  {previewResource.fileData.preview.map((page, i) => (
-                    <div key={i} className="border rounded-lg p-4">
-                      <p className="text-sm text-gray-500 mb-2">Page {i + 1}</p>
-                      <img src={page} alt={`Preview page ${i + 1}`} className="w-full" />
-                    </div>
-                  ))}
+              {previewResource.fileData?.preview?.map((page, i) => (
+                <div key={i} className="border rounded-lg p-4 mb-4">
+                  <p className="text-sm text-gray-500 mb-2">Page {i + 1}</p>
+                  <img src={page} alt={`Preview page ${i + 1}`} className="w-full" />
                 </div>
-              ) : (
-                <div className="text-center py-12 bg-gray-50 rounded-lg">
-                  <p className="text-gray-500">No preview available</p>
-                </div>
-              )}
+              ))}
             </div>
           </div>
         </div>

@@ -1,55 +1,56 @@
-import { Resource } from './types';
+import { Resource, Seller } from './types';
 
 const STORAGE_KEY = 'edumarket_resources';
 
-// Helper function to get resources
-const getResources = (): Resource[] => {
-  if (typeof window === 'undefined') return [];
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : [];
-};
-
-// Helper function to save resources
-const saveResources = (resources: Resource[]) => {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
-};
-
 export const resourceService = {
-  // Get all resources
-  getAll: (): Resource[] => {
-    return getResources();
+  getAll(): Resource[] {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   },
 
-  // Add new resource
-  add: (resource: Omit<Resource, 'id' | 'createdAt'>): Resource => {
-    const resources = getResources();
-    const newResource = {
-      ...resource,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString()
+  save(resource: Resource) {
+    const resources = this.getAll();
+    const index = resources.findIndex(r => r.id === resource.id);
+    if (index >= 0) {
+      resources[index] = resource;
+    } else {
+      resources.push(resource);
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+  },
+
+  delete(id: string) {
+    const resources = this.getAll().filter(r => r.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(resources));
+  },
+
+  getResources(filter?: Partial<Resource>, page: number = 1, pageSize: number = 20): { data: Resource[] } {
+    let resources = this.getAll();
+    if (filter) {
+      resources = resources.filter(r =>
+        Object.entries(filter).every(([key, value]) => r[key as keyof Resource] === value)
+      );
+    }
+    const start = (page - 1) * pageSize;
+    return { data: resources.slice(start, start + pageSize) };
+  },
+
+  getSellerById(id: string): { data: Seller | null } {
+    const resources = this.getAll();
+    const sellerResource = resources.find(r => r.sellerId === id);
+    if (!sellerResource) return { data: null };
+    return {
+      data: {
+        id: sellerResource.sellerId!,
+        name: sellerResource.sellerName,
+        bio: '',
+        subjects: [],
+        rating: 0,
+        totalSales: 0,
+        totalResources: resources.filter(r => r.sellerId === id).length,
+        joinedDate: new Date().toISOString(),
+        badges: []
+      }
     };
-    resources.push(newResource);
-    saveResources(resources);
-    return newResource;
-  },
-
-  // Delete resource
-  delete: (id: string): void => {
-    const resources = getResources();
-    const filtered = resources.filter(r => r.id !== id);
-    saveResources(filtered);
-  },
-
-  // Get single resource
-  getById: (id: string): Resource | undefined => {
-    const resources = getResources();
-    return resources.find(r => r.id === id);
-  },
-
-  // Get resources by seller
-  getBySeller: (sellerId: string): Resource[] => {
-    const resources = getResources();
-    return resources.filter(r => r.sellerId === sellerId);
   }
 };

@@ -1,25 +1,27 @@
 export interface Resource {
   id: string;
   title: string;
-  description: string;
-  category: string;
+  description?: string;
   price: number;
-  sellerId: string;
-  sellerName: string;
-  sellerEmail: string;
-  fileData: {
-    name: string;
-    type: string;
-    size: number;
-    pages?: number;
-    preview?: string[]; // base64 of first few pages
+  category: string;
+  fileData?: {
+    type?: string;
+    preview?: string[];
   };
-  createdAt: string;
+  sellerName: string;
+  sellerId?: string;
 }
 
-export interface CartItem {
-  resourceId: string;
-  title: string;
-  price: number;
-  sellerName: string;
+export interface Seller {
+  id: string;
+  name: string;
+  avatar?: string;
+  bio?: string;
+  school?: string;
+  subjects?: string[];
+  rating?: number;
+  totalSales?: number;
+  totalResources?: number;
+  joinedDate?: string;
+  badges?: string[];
 }
