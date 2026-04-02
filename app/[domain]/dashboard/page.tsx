@@ -242,13 +242,13 @@ export default function SchoolDashboardPage() {
                 {action.icon}
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">{action.name}</h3>
-              {'count' in action && (
+              {action.count !== undefined && (
                 <p className="text-2xl font-bold text-gray-900">{action.count}</p>
               )}
-              {'amount' in action && (
+              {action.amount && (
                 <p className="text-lg font-bold text-gray-900">{action.amount}</p>
               )}
-              {'rate' in action && (
+              {action.rate && (
                 <p className="text-lg font-bold text-gray-900">{action.rate}</p>
               )}
               <p className="text-xs text-gray-500 mt-1">{action.description}</p>
@@ -269,27 +269,29 @@ export default function SchoolDashboardPage() {
               </div>
               
               <div className="space-y-4">
-                {activities.length > 0 ? activities.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
-                      activity.type === 'enrollment' ? 'bg-green-100' :
-                      activity.type === 'payment' ? 'bg-blue-100' :
-                      activity.type === 'attendance' ? 'bg-yellow-100' : 'bg-purple-100'
-                    }`}>
-                      {activity.type === 'enrollment' ? '👤' :
-                       activity.type === 'payment' ? '💰' :
-                       activity.type === 'attendance' ? '📋' : '📝'}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-gray-900">{activity.title}</h3>
-                        <span className="text-xs text-gray-400">{activity.timestamp}</span>
+                {activities.length > 0 ? (
+                  activities.map((activity) => (
+                    <div key={activity.id} className="flex items-start gap-4 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl ${
+                        activity.type === 'enrollment' ? 'bg-green-100' :
+                        activity.type === 'payment' ? 'bg-blue-100' :
+                        activity.type === 'attendance' ? 'bg-yellow-100' : 'bg-purple-100'
+                      }`}>
+                        {activity.type === 'enrollment' ? '👤' :
+                         activity.type === 'payment' ? '💰' :
+                         activity.type === 'attendance' ? '📋' : '📝'}
                       </div>
-                      <p className="text-sm text-gray-600 mt-1">{activity.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">By {activity.user}</p>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-medium text-gray-900">{activity.title}</h3>
+                          <span className="text-xs text-gray-400">{activity.timestamp}</span>
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">{activity.description}</p>
+                        <p className="text-xs text-gray-500 mt-1">By {activity.user}</p>
+                      </div>
                     </div>
-                  </div>
-                )) : (
+                  ))
+                ) : (
                   <div className="text-center py-8 text-gray-500">
                     <span className="text-4xl block mb-2">📭</span>
                     <p>No recent activities</p>
@@ -305,26 +307,28 @@ export default function SchoolDashboardPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Upcoming Events</h2>
               
               <div className="space-y-4">
-                {events.length > 0 ? events.map((event) => (
-                  <div key={event.id} className="relative pl-8 pb-4 border-l-2 border-gray-200 last:pb-0">
-                    <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${
-                      event.type === 'exam' ? 'bg-red-500' :
-                      event.type === 'meeting' ? 'bg-blue-500' :
-                      event.type === 'holiday' ? 'bg-green-500' : 'bg-yellow-500'
-                    }`}></div>
-                    
-                    <p className="text-sm font-medium text-gray-900">{event.title}</p>
-                    <p className="text-xs text-gray-500 mt-1">{event.date} at {event.time}</p>
-                    {event.participants && (
-                      <p className="text-xs text-gray-400 mt-1">{event.participants} participants</p>
-                    )}
-                  </div>
-                )) : (
+                {events.length > 0 ? (
+                  events.map((event) => (
+                    <div key={event.id} className="relative pl-8 pb-4 border-l-2 border-gray-200 last:pb-0">
+                      <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${
+                        event.type === 'exam' ? 'bg-red-500' :
+                        event.type === 'meeting' ? 'bg-blue-500' :
+                        event.type === 'holiday' ? 'bg-green-500' : 'bg-yellow-500'
+                      }`}></div>
+                      
+                      <p className="text-sm font-medium text-gray-900">{event.title}</p>
+                      <p className="text-xs text-gray-500 mt-1">{event.date} at {event.time}</p>
+                      {event.participants && (
+                        <p className="text-xs text-gray-400 mt-1">{event.participants} participants</p>
+                      )}
+                    </div>
+                  ))
+                ) : (
                   <div className="text-center py-6 text-gray-500">
                     <span className="text-3xl block mb-2">📅</span>
                     <p className="text-sm">No upcoming events</p>
                   </div>
-                ))}
+                )}
               </div>
 
               {/* Quick Stats Mini Cards */}
