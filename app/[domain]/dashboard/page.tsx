@@ -101,21 +101,21 @@ export default function SchoolDashboardPage() {
   // Save data to localStorage whenever it changes
   useEffect(() => {
     if (!school?.id || !stats) return;
-    
+
     const statsKey = `dashboard_stats_${school.id}`;
     localStorage.setItem(statsKey, JSON.stringify(stats));
   }, [stats, school?.id]);
 
   useEffect(() => {
     if (!school?.id) return;
-    
+
     const activitiesKey = `dashboard_activities_${school.id}`;
     localStorage.setItem(activitiesKey, JSON.stringify(activities));
   }, [activities, school?.id]);
 
   useEffect(() => {
     if (!school?.id) return;
-    
+
     const eventsKey = `dashboard_events_${school.id}`;
     localStorage.setItem(eventsKey, JSON.stringify(events));
   }, [events, school?.id]);
@@ -315,23 +315,6 @@ export default function SchoolDashboardPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Upcoming Events</h2>
 
               <div className="space-y-4">
-<<<<<<< HEAD
-                {events.length > 0 ? events.map((event) => (
-                  <div key={event.id} className="relative pl-8 pb-4 border-l-2 border-gray-200 last:pb-0">
-                    <div className={`absolute left-[-9px] top-0 w-4 h-4 rounded-full ${
-                      event.type === 'exam' ? 'bg-red-500' :
-                      event.type === 'meeting' ? 'bg-blue-500' :
-                      event.type === 'holiday' ? 'bg-green-500' : 'bg-yellow-500'
-                    }`}></div>
-
-                    <p className="text-sm font-medium text-gray-900">{event.title}</p>
-                    <p className="text-xs text-gray-500 mt-1">{event.date} at {event.time}</p>
-                    {event.participants && (
-                      <p className="text-xs text-gray-400 mt-1">{event.participants} participants</p>
-                    )}
-                  </div>
-                )) : (
-=======
                 {events.length > 0 ? (
                   events.map((event) => (
                     <div key={event.id} className="relative pl-8 pb-4 border-l-2 border-gray-200 last:pb-0">
@@ -340,7 +323,7 @@ export default function SchoolDashboardPage() {
                         event.type === 'meeting' ? 'bg-blue-500' :
                         event.type === 'holiday' ? 'bg-green-500' : 'bg-yellow-500'
                       }`}></div>
-                      
+
                       <p className="text-sm font-medium text-gray-900">{event.title}</p>
                       <p className="text-xs text-gray-500 mt-1">{event.date} at {event.time}</p>
                       {event.participants && (
@@ -349,7 +332,6 @@ export default function SchoolDashboardPage() {
                     </div>
                   ))
                 ) : (
->>>>>>> e88d42de3bf3066ef5271cced439422ebde93cfa
                   <div className="text-center py-6 text-gray-500">
                     <span className="text-3xl block mb-2">📅</span>
                     <p className="text-sm">No upcoming events</p>
